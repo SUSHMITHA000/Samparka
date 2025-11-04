@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "497171068157",
-    "project_id": "samparka-ff1d2",
-    "storage_bucket": "samparka-ff1d2.firebasestorage.app"
+    "project_number": "399187846745",
+    "project_id": "samparka-4b8a9",
+    "storage_bucket": "samparka-4b8a9.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:497171068157:android:defcba6048180e5e68ba94",
+        "mobilesdk_app_id": "1:399187846745:android:624da1d911e9bb5fc87348",
         "android_client_info": {
           "package_name": "com.example.samparka"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAhRUs1fxx_1I9v9Hy0_g0lyvL8omLAbY8"
+          "current_key": "AIzaSyClI3AJClS0jR52ufOu3S2PDRyHUrYmzFI"
         }
       ],
       "services": {

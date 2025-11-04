@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Samparka">
         <activity
+            android:name=".Login_Page"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
