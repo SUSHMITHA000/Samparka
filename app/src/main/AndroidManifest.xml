@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.samparka">
+
+    <!-- optional permission if your app uses network calls -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,23 +14,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Samparka"
-        tools:targetApi="31">
+        >
+
+        <!-- Launcher activity - change to whichever screen you want to start first.
+             Currently set to Login_Page so app opens at the login screen. -->
         <activity
-            android:name=".DashboardActivity"
-            android:exported="false" />
-        <!-- Login Page (Launcher screen) -->
-        <activity
-            android:name=".Login_Page"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Sign In Page -->
+        </activity>
+
+        <!-- Other activities used in the app -->
         <activity
-            android:name=".SignInActivity"
+            android:name=".Login_Page"
             android:exported="false" />
+
+
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="false" />
+
+        <!-- screens you may have referenced in code; declare them too -->
+        <activity
+            android:name=".NotificationsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
