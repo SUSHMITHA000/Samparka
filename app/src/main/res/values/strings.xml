@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">NammaGrama</string>
-    <string name="title">NammaGrama</string>
+    <string name="app_name">Samparka</string>
+    <string name="title">Samparka</string>
     <string name="subtitle">Connect</string>
-    <string name="tagline">Empowering Rural Communities</string>
+    <string name="tagline"></string>
     <string name="select_language">Select Your Language</string>
     <string name="english">English</string>
     <string name="kannada">ಕನ್ನಡ (Kannada)</string>
     <string name="logo_desc">App logo</string>
     <string name="kannada_prompt">ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆರಿಸಿ</string>
+
+    <string-array name="languages">
+        <item>English</item>
+        <item>Kannada</item>
+        <item>Hindi</item>
+        <item>Telugu</item>
+    </string-array>
 </resources>
+
