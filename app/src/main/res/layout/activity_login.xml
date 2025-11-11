@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome Back"
+            android:text="Welcome"
             android:textColor="#000000"
             android:textStyle="bold"
             android:textSize="22sp"
@@ -35,160 +35,50 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign in to report and track issues"
+            android:text="Login with your email to continue"
             android:textColor="#6B7280"
             android:textSize="14sp"
             android:layout_marginBottom="24dp" />
 
-        <!-- Login / Sign Up Tabs -->
+        <!-- Email Input -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal"
-            android:background="#F3F4F6"
-            android:layout_marginBottom="16dp"
-            android:weightSum="2"
-            android:clipToOutline="true"
-            android:gravity="center">
+            android:background="@drawable/edittext_background"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
 
-            <Button
-                android:id="@+id/btnLoginTab"
-                android:layout_width="0dp"
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_mail"
+                app:tint="#6B7280"
+                android:layout_marginEnd="8dp" />
+
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Login"
-                android:textStyle="bold"
+                android:hint="Enter your email"
+                android:inputType="textEmailAddress"
                 android:textColor="#000000"
-                android:background="@drawable/tab_selected_bg" />
-
-            <Button
-                android:id="@+id/btnSignupTab"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Sign Up"
-                android:textColor="#6B7280"
-                android:background="@drawable/tab_unselected_bg" />
+                android:textSize="14sp"
+                android:background="@android:color/transparent" />
         </LinearLayout>
 
-        <!-- Login Card -->
-        <LinearLayout
+        <!-- Login Button -->
+        <Button
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/card_background"
-            android:padding="16dp">
+            android:layout_height="48dp"
+            android:text="Login"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#16A34A"
+            android:layout_marginTop="8dp" />
 
-            <!-- Login Title -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Login"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:textColor="#000000"
-                android:layout_marginBottom="4dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Enter your phone number to receive OTP"
-                android:textColor="#6B7280"
-                android:textSize="13sp"
-                android:layout_marginBottom="12dp" />
-
-            <!-- Phone Number -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:orientation="horizontal"
-                android:background="@drawable/edittext_background"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="12dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_phone"
-                    app:tint="#6B7280"
-                    android:layout_marginEnd="8dp" />
-
-                <EditText
-                    android:id="@+id/phoneEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="9876543210"
-                    android:inputType="phone"
-                    android:textColor="#000000"
-                    android:textSize="14sp"
-                    android:background="@android:color/transparent" />
-            </LinearLayout>
-
-            <!-- Send OTP Button -->
-            <Button
-                android:id="@+id/sendOtpButton"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Send OTP"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:backgroundTint="#16A34A"
-                android:layout_marginBottom="16dp" />
-
-            <!-- OR Divider -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginBottom="16dp">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="#D1D5DB" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="  OR  "
-                    android:textColor="#9CA3AF"
-                    android:textSize="13sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="#D1D5DB" />
-            </LinearLayout>
-
-            <!-- Google Login -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:orientation="horizontal"
-                android:background="@drawable/edittext_background"
-                android:gravity="center_vertical"
-                android:paddingStart="12dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_mail"
-                    app:tint="#000000"
-                    android:layout_marginEnd="8dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Continue with Google"
-                    android:textSize="14sp"
-                    android:textColor="#000000"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 </ScrollView>

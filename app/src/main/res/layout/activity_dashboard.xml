@@ -1,188 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9FAFB">
+    android:background="#E3FFF4">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Header Section -->
+        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center"
+            android:background="#0EB858"
             android:padding="16dp"
-            android:background="#16A34A"
-            android:layout_marginBottom="16dp"
-            android:paddingTop="32dp"
-            android:paddingBottom="32dp"
-            android:backgroundTintMode="add">
+            android:gravity="center">
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NammaGrama"
-                android:textSize="24sp"
+                android:text="Samparka"
+                android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:textColor="@android:color/white" />
-
+                android:textSize="22sp"/>
             <TextView
+                android:id="@+id/subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Your Community, Your Voice"
-                android:textSize="14sp"
-                android:textColor="@android:color/white" />
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"/>
+
+            <!-- Stats Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:background="#30CF85"
+                    android:text="3\nTotal Reports"
+                    android:gravity="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:padding="8dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:background="#30CF85"
+                    android:text="1\nIn Progress"
+                    android:gravity="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:padding="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:background="#30CF85"
+                    android:text="1\nResolved"
+                    android:gravity="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:padding="8dp"/>
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Stats Section -->
+        <!-- Report New Issue Button -->
+        <Button
+            android:id="@+id/btnReportIssue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+ Report New Issue"
+            android:background="#30CF85"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- My Reports & Help/Chat -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="16dp">
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginBottom="12dp">
 
-            <!-- Card 1 -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/btnMyReports"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/bg_stat_card"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp">
+                android:layout_weight="1"
+                android:text="My Reports"
+                android:background="#F0FFF9"
+                android:textColor="#0EB858"
+                android:textSize="16sp"
+                android:layout_marginEnd="4dp"/>
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_report"
-                    app:tint="#16A34A" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Active Reports"
-                    android:textSize="16sp"
-                    android:textColor="#000000"
-                    android:layout_marginStart="8dp" />
-            </LinearLayout>
-
-            <!-- Card 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/btnHelpChat"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/bg_stat_card"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_completed"
-                    app:tint="#16A34A" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Resolved Issues"
-                    android:textSize="16sp"
-                    android:textColor="#000000"
-                    android:layout_marginStart="8dp" />
-            </LinearLayout>
-
-            <!-- Card 3 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/bg_stat_card"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_user"
-                    app:tint="#16A34A" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Your Contributions"
-                    android:textSize="16sp"
-                    android:textColor="#000000"
-                    android:layout_marginStart="8dp" />
-            </LinearLayout>
+                android:layout_weight="1"
+                android:text="Help &amp;Chat"
+                android:background="#F0FFF9"
+                android:textColor="#0EB858"
+                android:textSize="16sp"
+                android:layout_marginStart="4dp"/>
         </LinearLayout>
 
-        <!-- Info Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/bg_outline_card"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_info"
-                    app:tint="#16A34A" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="About Us"
-                    android:textSize="15sp"
-                    android:textColor="#000000"
-                    android:layout_marginStart="8dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/bg_outline_card"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_help"
-                    app:tint="#16A34A" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Help and Chat"
-                    android:textSize="15sp"
-                    android:textColor="#000000"
-                    android:layout_marginStart="8dp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Footer -->
+        <!-- Community Update -->
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/communityUpdate"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="© 2025 NammaGrama"
-            android:textColor="#9CA3AF"
-            android:textSize="12sp"
-            android:layout_marginTop="16dp" />
+            android:background="#EAF5FF"
+            android:text="Community Update\nPanchayat meeting scheduled for April 20th at 3 PM"
+            android:textColor="#2C3E50"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp"/>
+
+<!--        &lt;!&ndash; Recent Reports List &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Recent Reports"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textColor="#2C3E50"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:layout_marginBottom="8dp"/>-->
+
+        <!-- Report Card Example -->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:background="#FFFFFF"-->
+<!--                android:padding="8dp"-->
+<!--                android:layout_marginBottom="8dp">-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="60dp"-->
+<!--                    android:layout_height="60dp"-->
+<!--                    android:src="@drawable/ic_pothole"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:scaleType="centerCrop"-->
+<!--                    android:layout_marginEnd="8dp"/>-->
+
+<!--                <LinearLayout-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="1">-->
+
+<!--                    <TextView-->
+<!--                        android:text="Pothole on Main Road"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textSize="16sp"-->
+<!--                        android:textColor="#2C3E50"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"/>-->
+<!--                    <TextView-->
+<!--                        android:text="Main Road, Near Bus Stand"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:textColor="#7B8B9A"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"/>-->
+<!--                    <TextView-->
+<!--                        android:text="In Progress"-->
+<!--                        android:textColor="#FF9800"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="4dp"/>-->
+<!--                </LinearLayout>-->
+<!--                <TextView-->
+<!--                    android:text="2025-04-10"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="#B0BEC5"-->
+<!--                    android:textSize="13sp"-->
+<!--                    android:gravity="end"/>-->
+<!--            </LinearLayout>-->
+
+<!--            &lt;!&ndash; Add similar blocks for other reports &ndash;&gt;-->
+<!--        </LinearLayout>-->
+
+        <!-- Repeat the above report block for each report, or use RecyclerView for dynamic data -->
 
     </LinearLayout>
 </ScrollView>
