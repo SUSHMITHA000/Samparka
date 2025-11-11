@@ -46,6 +46,9 @@
             android:name=".ProfileActivity"
             android:exported="false" />
 
+        <activity android:name=".ComplaintsActivity"/>
+
+
     </application>
 
 </manifest>
