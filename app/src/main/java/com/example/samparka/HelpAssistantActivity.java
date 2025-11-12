@@ -38,6 +38,24 @@ public class HelpAssistantActivity extends AppCompatActivity {
                 }
             }
         });
+        Button btnReportIssue = findViewById(R.id.btnReportIssue);
+        Button btnTrackComplaint = findViewById(R.id.btnTrackComplaint);
+        Button btnContact = findViewById(R.id.btnContact);
+
+        btnReportIssue.setOnClickListener(v -> {
+            etMessage.setText("How do I report a complaint?");
+            etMessage.setSelection(etMessage.getText().length());
+        });
+
+        btnTrackComplaint.setOnClickListener(v -> {
+            etMessage.setText("How can I track my complaint?");
+            etMessage.setSelection(etMessage.getText().length());
+        });
+
+        btnContact.setOnClickListener(v -> {
+            etMessage.setText("Contact Panchayat");
+            etMessage.setSelection(etMessage.getText().length());
+        });
     }
 
     // Helper to add bot message
@@ -55,6 +73,7 @@ public class HelpAssistantActivity extends AppCompatActivity {
         ((TextView) view.findViewById(R.id.txtTime)).setText(time);
         chatContainer.addView(view);
     }
+
 }
 
 
