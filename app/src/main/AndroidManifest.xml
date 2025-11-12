@@ -33,7 +33,8 @@
 
         <activity android:name=".report_issue" android:exported="false" />
         <activity android:name=".DashboardActivity" android:exported="false" />
-        <activity android:name=".Login_Page" android:exported="true">
+        <activity android:name=".Login_Page" android:exported="false"/>
+        <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -41,14 +42,7 @@
         </activity>
 
         <!-- Other activities used in the app -->
-        <activity
-            android:name=".Login_Page"
-            android:exported="false" />
 
-
-        <activity
-            android:name=".DashboardActivity"
-            android:exported="false" />
 
         <!-- screens you may have referenced in code; declare them too -->
         <activity

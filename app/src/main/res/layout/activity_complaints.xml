@@ -23,7 +23,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_arrow_back"
-                android:tint="#fff"/>
+                app:tint="#FFFFFF"
+                />
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -35,14 +36,33 @@
                 android:paddingStart="16dp"/>
         </LinearLayout>
 
-        <Spinner
-            android:id="@+id/spinnerCategory"
+        <!-- Filter row with icon and spinner -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:padding="12dp"
-            android:background="@drawable/spinner_bg"
-            android:popupBackground="#FFF"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:background="#1AB151">
+
+            <ImageView
+                android:id="@+id/imgFilterIcon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_filter"
+                app:tint="#fff"
+                android:layout_marginEnd="8dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerCategory"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:background="@drawable/spinner_bg"
+                android:popupBackground="#FFF"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

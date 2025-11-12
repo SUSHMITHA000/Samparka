@@ -58,7 +58,7 @@
                     android:src="@drawable/ic_location"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:tint="#1AB151"/>
+                    app:tint="#1AB151"/>
                 <TextView
                     android:id="@+id/txtLocation"
                     android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
                     android:src="@drawable/ic_calendar"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:tint="#AAA"/>
+                    app:tint="#AAA"/>
 
                 <TextView
                     android:id="@+id/txtDate"

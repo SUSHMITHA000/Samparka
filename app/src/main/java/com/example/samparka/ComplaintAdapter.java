@@ -1,7 +1,5 @@
 package com.example.samparka;
 
-// File: app/src/main/java/<your_package>/ComplaintAdapter.java
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +13,11 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
 
     public ComplaintAdapter(List<Complaint> complaints) {
         this.complaints = complaints;
+    }
+
+    public void updateList(List<Complaint> newComplaints) {
+        complaints = newComplaints;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -48,7 +51,6 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
         holder.txtStatus.setText(c.status);
         holder.txtDate.setText(c.date);
 
-        // Status indicator background (add drawables for each status: status_pending, etc.)
         if (c.status.equalsIgnoreCase("Pending")) {
             holder.txtStatus.setBackgroundResource(R.drawable.status_pending);
         } else if (c.status.equalsIgnoreCase("Completed") || c.status.equalsIgnoreCase("Done")) {
@@ -63,4 +65,3 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
         return complaints.size();
     }
 }
-
