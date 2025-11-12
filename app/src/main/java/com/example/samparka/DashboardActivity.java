@@ -53,8 +53,13 @@ public class DashboardActivity extends AppCompatActivity {
         Button helpChatBtn = findViewById(R.id.btnHelpChat);
         TextView communityUpdate = findViewById(R.id.communityUpdate);
 
-        reportIssueBtn.setOnClickListener(v ->
-                Toast.makeText(this, "Report New Issue clicked", Toast.LENGTH_SHORT).show());
+        // ✅ Open ReportIssueActivity when the button is clicked
+        reportIssueBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, report_issue.class);
+            startActivity(intent);
+            // Optional animation between screens
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        });
 
         // Updated functionality: Open ComplaintsActivity when "My Reports" is clicked
         myReportsBtn.setOnClickListener(v -> {
