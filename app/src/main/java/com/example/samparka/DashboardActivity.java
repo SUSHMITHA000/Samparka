@@ -1,5 +1,6 @@
 package com.example.samparka;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,8 +19,13 @@ public class DashboardActivity extends AppCompatActivity {
         Button helpChatBtn = findViewById(R.id.btnHelpChat);
         TextView communityUpdate = findViewById(R.id.communityUpdate);
 
-        reportIssueBtn.setOnClickListener(v ->
-                Toast.makeText(this, "Report New Issue clicked", Toast.LENGTH_SHORT).show());
+        // ✅ Open ReportIssueActivity when the button is clicked
+        reportIssueBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, report_issue.class);
+            startActivity(intent);
+            // Optional animation between screens
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        });
 
         myReportsBtn.setOnClickListener(v ->
                 Toast.makeText(this, "My Reports", Toast.LENGTH_SHORT).show());
