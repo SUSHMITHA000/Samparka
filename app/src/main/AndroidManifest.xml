@@ -54,6 +54,8 @@
             android:exported="false" />
 
         <activity android:name=".ComplaintsActivity"/>
+        <activity android:name=".HelpAssistantActivity" />
+
 
 
     </application>
