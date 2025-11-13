@@ -2,14 +2,27 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.samparka">
 
-    <!-- Permissions -->
+    <!-- ===== PERMISSIONS ===== -->
+
+    <!-- Camera -->
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Storage permissions (Android 13+) -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+
+    <!-- Storage permissions (Android 12 and below) -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
 
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- Camera optional - app does NOT require camera to run -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <!-- ===== APPLICATION ===== -->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -20,7 +33,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Samparka">
 
-        <!-- FileProvider -->
+        <!-- FILE PROVIDER for CAMERA output -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -31,32 +44,36 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".report_issue" android:exported="false" />
-        <activity android:name=".DashboardActivity" android:exported="false" />
-        <activity android:name=".Login_Page" android:exported="false"/>
-        <activity android:name=".MainActivity" android:exported="true">
+        <!-- REPORT ISSUE PAGE -->
+        <activity
+            android:name=".report_issue"
+            android:exported="false" />
+
+        <!-- DASHBOARD -->
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="false" />
+
+        <!-- LOGIN PAGE -->
+        <activity
+            android:name=".Login_Page"
+            android:exported="false" />
+
+        <!-- MAIN ACTIVITY = LAUNCHER SCREEN -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Other activities used in the app -->
-
-
-        <!-- screens you may have referenced in code; declare them too -->
-        <activity
-            android:name=".NotificationsActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".ProfileActivity"
-            android:exported="false" />
-
-        <activity android:name=".ComplaintsActivity"/>
-        <activity android:name=".HelpAssistantActivity" />
-
-
+        <!-- OTHER SCREENS -->
+        <activity android:name=".NotificationsActivity" android:exported="false" />
+        <activity android:name=".ProfileActivity" android:exported="false" />
+        <activity android:name=".ComplaintsActivity" android:exported="false" />
+        <activity android:name=".HelpAssistantActivity" android:exported="false" />
 
     </application>
 
