@@ -20,16 +20,35 @@
             android:padding="16dp"
             android:gravity="center">
 
-            <!-- At the top-right of your dashboard layout -->
-            <ImageView
-                android:id="@+id/notificationIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="6dp"
-                android:src="@drawable/ic_notifications"
-                android:contentDescription="Notifications"
-                android:layout_gravity="end"/>
+            <!-- Top row with notification and profile icons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginBottom="8dp">
 
+                <ImageView
+                    android:id="@+id/notificationIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:contentDescription="Notifications"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_notifications" />
+
+                <Space
+                    android:layout_width="12dp"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:id="@+id/profileIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_profile"
+                android:contentDescription="Profile"
+                android:clickable="true"
+                android:focusable="true" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/title"
@@ -92,7 +111,6 @@
             </LinearLayout>
         </LinearLayout>
 
-
         <!-- Report New Issue Button -->
         <Button
             android:id="@+id/btnReportIssue"
@@ -149,18 +167,19 @@
             android:padding="12dp"
             android:layout_marginBottom="8dp"/>
 
-<!--        &lt;!&ndash; Recent Reports List &ndash;&gt;-->
+        <!-- Recent Reports List -->
+
+        <!-- Report Card Example -->
 <!--        <TextView-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            android:text="Recent Reports"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textColor="#2C3E50"-->
 <!--            android:layout_marginTop="8dp"-->
-<!--            android:layout_marginBottom="8dp"/>-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:text="Recent Reports"-->
+<!--            android:textColor="#2C3E50"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold" />-->
 
-        <!-- Report Card Example -->
 <!--        <LinearLayout-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->

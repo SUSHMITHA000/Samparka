@@ -75,6 +75,7 @@
         <activity android:name=".ComplaintsActivity" android:exported="false" />
         <activity android:name=".HelpAssistantActivity" android:exported="false" />
         <activity android:name=".NotificationsActivity"  android:exported="false"/>
+        <activity android:name=".ProfileActivity"  android:exported="false"/>
 
 
     </application>

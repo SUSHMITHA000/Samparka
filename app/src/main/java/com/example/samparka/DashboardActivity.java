@@ -20,6 +20,7 @@ public class DashboardActivity extends AppCompatActivity {
         Button helpChatBtn = findViewById(R.id.btnHelpChat);
         TextView communityUpdate = findViewById(R.id.communityUpdate);
         ImageView notificationIcon = findViewById(R.id.notificationIcon);
+        ImageView profileIcon = findViewById(R.id.profileIcon); // Added line
 
         // Open ReportIssueActivity when "Report New Issue" is clicked
         reportIssueBtn.setOnClickListener(v -> {
@@ -46,7 +47,13 @@ public class DashboardActivity extends AppCompatActivity {
 
         // Open Notification Page when bell icon is tapped
         notificationIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(DashboardActivity.this,NotificationsActivity.class);
+            Intent intent = new Intent(DashboardActivity.this, NotificationsActivity.class);
+            startActivity(intent);
+        });
+
+        // Open Profile Page when profile icon is tapped
+        profileIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, ProfileActivity.class);
             startActivity(intent);
         });
     }
