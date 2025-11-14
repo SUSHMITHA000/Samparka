@@ -72,8 +72,10 @@
 
                 <ImageView
                     android:id="@+id/imagePreview"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="match_parent"
+                    android:minHeight="80dp"
+                    android:minWidth="80dp"
+                    android:layout_height="match_parent"
                     android:src="@android:drawable/ic_menu_camera"
                     android:tint="#999999"
                     android:contentDescription="Upload image"
