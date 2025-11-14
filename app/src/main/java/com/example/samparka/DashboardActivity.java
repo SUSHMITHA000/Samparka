@@ -4,8 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.ImageView;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -18,6 +19,7 @@ public class DashboardActivity extends AppCompatActivity {
         Button myReportsBtn = findViewById(R.id.btnMyReports);
         Button helpChatBtn = findViewById(R.id.btnHelpChat);
         TextView communityUpdate = findViewById(R.id.communityUpdate);
+        ImageView notificationIcon = findViewById(R.id.notificationIcon);
 
         // Open ReportIssueActivity when "Report New Issue" is clicked
         reportIssueBtn.setOnClickListener(v -> {
@@ -41,7 +43,11 @@ public class DashboardActivity extends AppCompatActivity {
         // Show info toast when community update is clicked
         communityUpdate.setOnClickListener(v ->
                 Toast.makeText(this, "Panchayat Meeting Info", Toast.LENGTH_SHORT).show());
+
+        // Open Notification Page when bell icon is tapped
+        notificationIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this,NotificationsActivity.class);
+            startActivity(intent);
+        });
     }
 }
-
-

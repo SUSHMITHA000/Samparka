@@ -20,6 +20,17 @@
             android:padding="16dp"
             android:gravity="center">
 
+            <!-- At the top-right of your dashboard layout -->
+            <ImageView
+                android:id="@+id/notificationIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="6dp"
+                android:src="@drawable/ic_notifications"
+                android:contentDescription="Notifications"
+                android:layout_gravity="end"/>
+
+
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
@@ -80,6 +91,7 @@
                     android:padding="8dp"/>
             </LinearLayout>
         </LinearLayout>
+
 
         <!-- Report New Issue Button -->
         <Button

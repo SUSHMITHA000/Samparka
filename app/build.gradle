@@ -40,9 +40,6 @@ dependencies {
     androidTestImplementation libs.espresso.core
     implementation 'com.android.volley:volley:1.2.1'
 
-
-
-
     // ✅ Use Firebase BoM (Bill of Materials)
     implementation platform('com.google.firebase:firebase-bom:33.5.1')
 
@@ -52,7 +49,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-database'
-
+    implementation 'com.cloudinary:cloudinary-android:3.1.2'
     // ✅ Glide for image loading
     implementation 'com.github.bumptech.glide:glide:4.15.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
