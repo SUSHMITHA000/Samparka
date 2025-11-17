@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <!-- ===== Toolbar ===== -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#0AAD52">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+             />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="56dp"
+            android:text="Notifications"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+    <!-- ===== Scrollable Notifications ===== -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ===== Notification Card 1 ===== -->
+            <include
+                layout="@layout/item_notification_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp" />
+
+
+            <!-- ===== Notification Card 2 ===== -->
+<!--            <include-->
+<!--                layout="@layout/item_notification_reminder"-->
+<!--                android:layout_marginBottom="12dp" />-->
+
+            <!-- ===== Notification Card 3 ===== -->
+<!--            <include-->
+<!--                layout="@layout/item_notification_admin"-->
+<!--                android:layout_marginBottom="12dp" />-->
+
+            <!-- ===== Notification Card 4 ===== -->
+<!--            <include-->
+<!--                layout="@layout/item_notification_resolved"-->
+<!--                android:layout_marginBottom="12dp" />-->
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
