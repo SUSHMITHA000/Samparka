@@ -2,6 +2,7 @@ package com.example.samparka;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +47,7 @@ public class Login_Page extends AppCompatActivity {
                         GoogleSignInAccount account = task.getResult(ApiException.class);
                         firebaseGoogleAuth(account.getIdToken());
                     } catch (ApiException e) {
+                        Log.d("Error fatal0", e.toString());
                         Toast.makeText(this, "Google Sign-In Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
