@@ -11,6 +11,16 @@
     <string name="kannada_prompt">ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆರಿಸಿ</string>
     <string name="default_web_client_id">664826837179-f4jcmd6st5dfe13nkqsmvutev2tnqt4l.apps.googleusercontent.com</string>
 
+    <string name="leaf_logo_desc">App logo</string>
+    <string name="welcome">Welcome</string>
+    <string name="login_subtitle">Login using email and password</string>
+    <string name="email_hint">Enter your email</string>
+    <string name="password_hint">Enter your password</string>
+    <string name="login">Login</string>
+    <string name="email_icon_desc">Email icon</string>
+    <string name="password_icon_desc">Password icon</string>
+
+
 
     <string-array name="languages">
         <item>English</item>
