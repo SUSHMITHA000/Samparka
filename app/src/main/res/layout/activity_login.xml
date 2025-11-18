@@ -116,6 +116,19 @@
             android:backgroundTint="#16A34A"
             android:layout_marginTop="8dp" />
 
+        <TextView
+            android:id="@+id/forgotPasswordText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot Password?"
+            android:textColor="#16A34A"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
+            android:padding="4dp"/>
+
+
         <!-- GOOGLE SIGN-IN -->
         <com.google.android.gms.common.SignInButton
             android:id="@+id/googleSignInButton"
