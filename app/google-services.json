@@ -1,7 +1,6 @@
 {
   "project_info": {
     "project_number": "664826837179",
-    "firebase_url": "https://samparka-fc3d9-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "samparka-fc3d9",
     "storage_bucket": "samparka-fc3d9.firebasestorage.app"
   },
@@ -13,28 +12,7 @@
           "package_name": "com.example.samparka"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "664826837179-eu6k3eskg1lpibta61iumk5520dkdemo.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.samparka",
-            "certificate_hash": "b0e7b039c8e6b641776e51b30e3cb53e461e004e"
-          }
-        },
-        {
-          "client_id": "664826837179-t8rj8ua2a73pqr7r3urand9jsjdl630t.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.samparka",
-            "certificate_hash": "47de3e1c103e0c59a1fe1515c9d8a3971f95e788"
-          }
-        },
-        {
-          "client_id": "664826837179-f4jcmd6st5dfe13nkqsmvutev2tnqt4l.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyAiSNjDDGd7wQ6_fjcoE-3NNklpsGoLWWU"
@@ -42,12 +20,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "664826837179-f4jcmd6st5dfe13nkqsmvutev2tnqt4l.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

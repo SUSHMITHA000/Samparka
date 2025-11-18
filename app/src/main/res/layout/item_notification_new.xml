@@ -1,0 +1,76 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="@drawable/white_card"
+    android:layout_marginBottom="12dp"
+    android:elevation="3dp">
+
+    <!-- LEFT VERTICAL GREEN LINE -->
+    <View
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:background="#1CA64B"
+        android:layout_marginEnd="14dp"/>
+
+    <!-- CONTENT AREA -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- ROW 1 : ICON + TITLE + GREEN DOT -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_info"
+                android:tint="#2F80ED" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Complaint Assigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"
+                android:textColor="#000000"/>
+
+            <!-- RIGHT GREEN DOT -->
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:background="@drawable/green_dot"
+                android:layout_gravity="end"
+                android:layout_marginStart="8dp"/>
+
+        </LinearLayout>
+
+        <!-- MESSAGE -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You have been assigned a new complaint: “Pothole on Main Road”"
+            android:textColor="#555555"
+            android:textSize="14sp"
+            android:layout_marginTop="6dp"/>
+
+        <!-- TIME -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2025-04-13 11:30 AM"
+            android:textColor="#777777"
+            android:textSize="12sp"
+            android:layout_marginTop="6dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
