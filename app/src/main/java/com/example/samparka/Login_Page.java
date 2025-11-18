@@ -2,7 +2,6 @@ package com.example.samparka;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +15,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.android.gms.common.SignInButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Login_Page extends AppCompatActivity {
 
@@ -31,7 +35,7 @@ public class Login_Page extends AppCompatActivity {
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth firebaseAuth;
 
-    // Google Sign-in result launcher
+    // Google Sign-In launcher
     private final ActivityResultLauncher<Intent> googleSignInLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getData() != null) {
@@ -77,6 +81,7 @@ public class Login_Page extends AppCompatActivity {
         loginButton.setOnClickListener(v -> loginWithEmail());
     }
 
+    // ===================== MANUAL EMAIL LOGIN =====================
     private void loginWithEmail() {
 
         String email = emailEditText.getText().toString().trim();
@@ -92,19 +97,50 @@ public class Login_Page extends AppCompatActivity {
             return;
         }
 
+        // Try LOGIN first
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
+                    saveToFirestore(email);
                     Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show();
                     goToDashboard();
                 })
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "Login Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> {
+
+                    // IF LOGIN FAILS → Auto Create Account
+                    firebaseAuth.createUserWithEmailAndPassword(email, password)
+                            .addOnSuccessListener(authResult -> {
+                                saveToFirestore(email);
+                                Toast.makeText(this, "Account Created & Logged In!", Toast.LENGTH_SHORT).show();
+                                goToDashboard();
+                            })
+                            .addOnFailureListener(err -> {
+                                Toast.makeText(this, "Error: " + err.getMessage(), Toast.LENGTH_LONG).show();
+                            });
+                });
     }
 
-    // FIREBASE AUTH WITH GOOGLE TOKEN
+    // ===================== SAVE USER TO FIRESTORE =====================
+    private void saveToFirestore(String email) {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("email", email);
+        user.put("timestamp", System.currentTimeMillis());
+
+        db.collection("users").document(email)
+                .set(user)
+                .addOnSuccessListener(a -> {})
+                .addOnFailureListener(e -> {});
+    }
+
+    // ===================== GOOGLE LOGIN =====================
     private void firebaseGoogleAuth(String idToken) {
+
         firebaseAuth.signInWithCredential(GoogleAuthProvider.getCredential(idToken, null))
                 .addOnSuccessListener(authResult -> {
+                    String email = firebaseAuth.getCurrentUser().getEmail();
+                    saveToFirestore(email);
                     Toast.makeText(this, "Google Login Successful!", Toast.LENGTH_SHORT).show();
                     goToDashboard();
                 })
@@ -112,7 +148,7 @@ public class Login_Page extends AppCompatActivity {
                         Toast.makeText(this, "Firebase Auth Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
-    // GO TO DASHBOARD
+    // ===================== NAVIGATE TO DASHBOARD =====================
     private void goToDashboard() {
         Intent intent = new Intent(Login_Page.this, DashboardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

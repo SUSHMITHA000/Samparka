@@ -1,6 +1,7 @@
 package com.example.samparka;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -110,6 +111,7 @@ public class report_issue extends AppCompatActivity {
     }
 
     // ---------------- FETCH CURRENT LOCATION ----------------
+    @SuppressLint("SetTextI18n")
     @RequiresPermission(allOf = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
     private void fetchCurrentLocation() {
         fusedLocationClient.getLastLocation()
@@ -124,6 +126,7 @@ public class report_issue extends AppCompatActivity {
     }
 
     // ---------------- CONVERT LAT/LON TO ADDRESS ----------------
+    @SuppressLint("SetTextI18n")
     private void getAddressFromCoordinates(double latitude, double longitude) {
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
