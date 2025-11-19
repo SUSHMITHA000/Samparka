@@ -28,5 +28,34 @@
         <item>Hindi</item>
         <item>Telugu</item>
     </string-array>
+
+
+
+
+<string name="tab_login">Login</string>
+<string name="tab_register">Register</string>
+
+<string name="register_title">Create your account</string>
+<string name="register_subtitle">Enter your details to register</string>
+
+<string name="hint_full_name">Full Name</string>
+<string name="hint_email">Email</string>
+<string name="hint_password">Create Password</string>
+
+<string name="btn_create_account">Create Account</string>
+
+<string name="login_title">Login</string>
+<string name="login_subtittle">Enter Authority ID and Password</string>
+
+<string name="hint_authority_id">Authority ID</string>
+<string name="hint_login_password">Password</string>
+
+<string name="btn_login">Login</string>
+
+<string name="cd_user_icon">User icon</string>
+<string name="cd_email_icon">Email icon</string>
+<string name="cd_password_icon">Password icon</string>
+<string name="cd_logo">Logo</string>
 </resources>
+
 
