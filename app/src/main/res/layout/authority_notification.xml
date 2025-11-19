@@ -17,7 +17,8 @@
             android:layout_height="24dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
-             />
+            android:src="@drawable/ic_back" />   <!-- ADD THIS ICON -->
+
 
         <TextView
             android:id="@+id/tvTitle"
@@ -47,24 +48,7 @@
             <include
                 layout="@layout/item_notification_new"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp" />
-
-
-            <!-- ===== Notification Card 2 ===== -->
-<!--            <include-->
-<!--                layout="@layout/item_notification_reminder"-->
-<!--                android:layout_marginBottom="12dp" />-->
-
-            <!-- ===== Notification Card 3 ===== -->
-<!--            <include-->
-<!--                layout="@layout/item_notification_admin"-->
-<!--                android:layout_marginBottom="12dp" />-->
-
-            <!-- ===== Notification Card 4 ===== -->
-<!--            <include-->
-<!--                layout="@layout/item_notification_resolved"-->
-<!--                android:layout_marginBottom="12dp" />-->
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
