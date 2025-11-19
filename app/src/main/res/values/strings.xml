@@ -9,6 +9,14 @@
     <string name="kannada">ಕನ್ನಡ (Kannada)</string>
     <string name="logo_desc">App logo</string>
     <string name="kannada_prompt">ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆರಿಸಿ</string>
+    <string name="help_assistant">Help Assistant</string>
+    <string name="available_247">Available 24/7</string>
+    <string name="report_issue">Report Issue</string>
+    <string name="track_complaint">Track Complaint</string>
+    <string name="contact">Contact</string>
+    <string name="type_message_hint">Type your message...</string>
+    <string name="record_voice">Record Voice</string>
+
 
     <string-array name="languages">
         <item>English</item>
