@@ -55,10 +55,12 @@
 
                 <!-- Notification Icon -->
                 <ImageView
+                    android:id="@+id/ivNotification"
                     android:src="@drawable/ic_notifications"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="12dp"/>
+
 
                 <!-- Logout Icon -->
                 <ImageView
