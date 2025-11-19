@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -19,7 +18,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,15 +27,15 @@ import java.util.Map;
 
 public class Login_Page extends AppCompatActivity {
 
-    private EditText emailEditText, passwordEditText;
+    private EditText nameEditText, emailEditText, passwordEditText;
     private Button loginButton;
     private SignInButton googleSignInButton;
-    private TextView forgotPasswordText;
 
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
 
-    // Google Sign-in launcher
+    // Google Sign-in result launcher
     private final ActivityResultLauncher<Intent> googleSignInLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getData() != null) {
@@ -59,14 +57,15 @@ public class Login_Page extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
+        nameEditText = findViewById(R.id.nameEditText);
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.loginButton);
         googleSignInButton = findViewById(R.id.googleSignInButton);
-        forgotPasswordText = findViewById(R.id.forgotPasswordText);
 
-        // ---------------- GOOGLE SIGN-IN -----------------
+        // GOOGLE SIGN-IN SETUP
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -80,20 +79,16 @@ public class Login_Page extends AppCompatActivity {
             googleSignInLauncher.launch(signInIntent);
         });
 
-        // ---------------- EMAIL + PASSWORD LOGIN -----------------
-        loginButton.setOnClickListener(v -> loginWithEmail());
-
-        // ---------------- FORGOT PASSWORD -----------------
-        forgotPasswordText.setOnClickListener(v -> sendPasswordReset());
+        loginButton.setOnClickListener(v -> manualLogin());
     }
 
-    private void loginWithEmail() {
-
+    private void manualLogin() {
+        String name = nameEditText.getText().toString().trim();
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Enter email and password", Toast.LENGTH_SHORT).show();
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "All fields are required!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -102,76 +97,58 @@ public class Login_Page extends AppCompatActivity {
             return;
         }
 
+        // FIRST TRY LOGIN
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
-                    saveToFirestore(email);
-                    Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show();
                     goToDashboard();
                 })
                 .addOnFailureListener(e -> {
-
+                    // USER NOT FOUND → CREATE ACCOUNT
                     firebaseAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnSuccessListener(authResult -> {
-                                saveToFirestore(email);
+                            .addOnSuccessListener(result -> {
+
+                                // Save name & email in Firestore
+                                Map<String, Object> userData = new HashMap<>();
+                                userData.put("name", name);
+                                userData.put("email", email);
+
+                                db.collection("users")
+                                        .document(email)
+                                        .set(userData);
+
                                 Toast.makeText(this, "Account Created & Logged In!", Toast.LENGTH_SHORT).show();
                                 goToDashboard();
                             })
                             .addOnFailureListener(err ->
-                                    Toast.makeText(this, "Error: " + err.getMessage(), Toast.LENGTH_LONG).show());
+                                    Toast.makeText(this, "Login Failed: " + err.getMessage(), Toast.LENGTH_SHORT).show());
                 });
     }
 
-    // =============== FORGOT PASSWORD FUNCTION ===============
-    private void sendPasswordReset() {
-
-        String email = emailEditText.getText().toString().trim();
-
-        if (email.isEmpty()) {
-            Toast.makeText(this, "Enter your email first", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, "Enter valid email", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        firebaseAuth.sendPasswordResetEmail(email)
-                .addOnSuccessListener(unused ->
-                        Toast.makeText(this, "Reset link sent to your email!", Toast.LENGTH_LONG).show())
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "Failed: " + e.getMessage(), Toast.LENGTH_LONG).show());
-    }
-
+    // GOOGLE SIGN-IN → FIREBASE AUTH
     private void firebaseGoogleAuth(String idToken) {
-
         firebaseAuth.signInWithCredential(GoogleAuthProvider.getCredential(idToken, null))
                 .addOnSuccessListener(authResult -> {
-                    String email = firebaseAuth.getCurrentUser().getEmail();
-                    saveToFirestore(email);
-                    Toast.makeText(this, "Google Login Successful!", Toast.LENGTH_SHORT).show();
+                    GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
+
+                    if (acc != null) {
+                        Map<String, Object> userData = new HashMap<>();
+                        userData.put("name", acc.getDisplayName());
+                        userData.put("email", acc.getEmail());
+
+                        db.collection("users")
+                                .document(acc.getEmail())
+                                .set(userData);
+                    }
+
                     goToDashboard();
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Firebase Auth Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
-    private void saveToFirestore(String email) {
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        Map<String, Object> user = new HashMap<>();
-        user.put("email", email);
-        user.put("timestamp", System.currentTimeMillis());
-
-        db.collection("users").document(email)
-                .set(user);
-    }
-
     private void goToDashboard() {
         Intent intent = new Intent(Login_Page.this, DashboardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        finish();
     }
 }

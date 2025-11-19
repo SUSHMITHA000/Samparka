@@ -43,6 +43,36 @@
             android:textSize="14sp"
             android:layout_marginBottom="24dp" />
 
+        <!-- Name Input -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:background="@drawable/edittext_background"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_person"
+                android:tint="#6B7280"
+                android:layout_marginEnd="8dp"
+                tools:ignore="UseAppTint" />
+
+            <EditText
+                android:id="@+id/nameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Enter your name"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:background="@android:color/transparent" />
+        </LinearLayout>
+
+
         <!-- Email Input -->
         <LinearLayout
             android:layout_width="match_parent"
