@@ -26,6 +26,10 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+
     <!-- ===== APPLICATION ===== -->
     <application
         android:allowBackup="true"
@@ -78,8 +82,8 @@
         <activity android:name=".ProfileActivity" android:exported="false" />
         <activity android:name=".ComplaintsActivity" android:exported="false" />
         <activity android:name=".HelpAssistantActivity" android:exported="false" />
-        <activity android:name=".NotificationsActivity"  android:exported="false"/>
-        <activity android:name=".ProfileActivity"  android:exported="false"/>
+<!--        <activity android:name=".NotificationsActivity"  android:exported="false"/>-->
+<!--        <activity android:name=".ProfileActivity"  android:exported="false"/>-->
 
 
     </application>

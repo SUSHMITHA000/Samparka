@@ -5,4 +5,15 @@
     <color name="green_800">#057A3E</color>
     <color name="white">#FFFFFF</color>
     <color name="bg_gray">#F3F6F4</color>
+    <color name="black">#000000</color>
+
+    <color name="gray_300">#616161</color>
+    <color name="gray_600">#616161</color>
+    <color name="red_700">#D32F2F</color>
+    <color name="gray_700">#757575</color>
+
+
+
+
+
 </resources>

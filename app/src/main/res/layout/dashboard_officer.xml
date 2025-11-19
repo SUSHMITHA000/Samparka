@@ -1,0 +1,288 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7F5"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <!-- ===================== TOP GREEN HEADER ===================== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:gravity="top"
+            android:backgroundTintMode="src_over"
+            android:clipToPadding="false"
+            android:background="@drawable/green_header_rounded">
+
+            <!-- Title + Icons Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:text="Road Authority"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="Field Officer Dashboard"
+                        android:textSize="16sp"
+                        android:textColor="#E8FFE8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp" />
+
+                </LinearLayout>
+
+                <!-- Notification Icon -->
+                <ImageView
+                    android:id="@+id/ivNotification"
+                    android:src="@drawable/ic_notifications"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginEnd="12dp"/>
+
+
+                <!-- Logout Icon -->
+                <ImageView
+                    android:src="@drawable/ic_logout"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"/>
+            </LinearLayout>
+
+
+            <!-- STAT CARDS ROW - -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:weightSum="3">
+
+                <!-- NEW -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/card_green_light"
+                    android:layout_marginEnd="10dp">
+
+                    <TextView
+                        android:text="0"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="New"
+                        android:textColor="#E8FFE8"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <!-- IN PROGRESS -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/card_green_light"
+                    android:layout_marginEnd="10dp">
+
+                    <TextView
+                        android:text="1"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="In Progress"
+                        android:textColor="#E8FFE8"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <!-- COMPLETED -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/card_green_light">
+
+                    <TextView
+                        android:text="45"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="Completed"
+                        android:textColor="#E8FFE8"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ===================== MAP CARD ===================== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:padding="16dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/white_card"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="Assigned Complaints Map"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="#D7F5D7">
+
+                <TextView
+                    android:text="Map showing your assigned complaints"
+                    android:textSize="16sp"
+                    android:textColor="#3A6B3A"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- ===================== IN PROGRESS LIST ===================== -->
+        <TextView
+            android:text="In Progress"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <!-- Complaint Item Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/white_card"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/sample_pothole"
+                android:scaleType="centerCrop"
+                android:background="@drawable/rounded_image"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Pothole on Main Road"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <!-- Location -->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/ic_location"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"/>
+
+                    <TextView
+                        android:text="Main Road, Near Bus Stand"
+                        android:textSize="14sp"
+                        android:textColor="#555555"
+                        android:layout_marginStart="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+
+                </LinearLayout>
+
+                <!-- Status -->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/ic_progress_blue"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"/>
+
+                    <TextView
+                        android:text="In Progress"
+                        android:textSize="14sp"
+                        android:textColor="#3B82F6"
+                        android:layout_marginStart="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
