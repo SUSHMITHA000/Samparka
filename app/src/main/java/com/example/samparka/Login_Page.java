@@ -1,6 +1,7 @@
 package com.example.samparka;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.Button;
@@ -54,6 +55,17 @@ public class Login_Page extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // SESSION PERSISTENCE: Check session and redirect if logged in
+        SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        if (prefs.getBoolean("isLoggedIn", false)) {
+            Intent intent = new Intent(Login_Page.this, DashboardActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_login);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -100,6 +112,10 @@ public class Login_Page extends AppCompatActivity {
         // FIRST TRY LOGIN
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
+                    // SESSION PERSISTENCE: Save login state
+                    SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+                    prefs.edit().putBoolean("isLoggedIn", true).apply();
+
                     goToDashboard();
                 })
                 .addOnFailureListener(e -> {
@@ -115,6 +131,10 @@ public class Login_Page extends AppCompatActivity {
                                 db.collection("users")
                                         .document(email)
                                         .set(userData);
+
+                                // SESSION PERSISTENCE: Save login state
+                                SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+                                prefs.edit().putBoolean("isLoggedIn", true).apply();
 
                                 Toast.makeText(this, "Account Created & Logged In!", Toast.LENGTH_SHORT).show();
                                 goToDashboard();
@@ -139,6 +159,10 @@ public class Login_Page extends AppCompatActivity {
                                 .document(acc.getEmail())
                                 .set(userData);
                     }
+
+                    // SESSION PERSISTENCE: Save login state
+                    SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+                    prefs.edit().putBoolean("isLoggedIn", true).apply();
 
                     goToDashboard();
                 })

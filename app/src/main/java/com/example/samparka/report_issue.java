@@ -13,11 +13,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent; // <-- Voice import
 import android.widget.*;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable; // <-- Needed for onActivityResult
 import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -31,8 +33,15 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+// --- ML Kit imports ---
+import com.google.mlkit.nl.translate.TranslateLanguage;
+import com.google.mlkit.nl.translate.Translation;
+import com.google.mlkit.nl.translate.Translator;
+import com.google.mlkit.nl.translate.TranslatorOptions;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -56,6 +65,9 @@ public class report_issue extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_CODE = 101;
     private static final int STORAGE_PERMISSION_CODE = 102;
     private static final int LOCATION_PERMISSION_CODE = 200;
+
+    // --- Add for voice input ---
+    private static final int VOICE_REQ_CODE = 99;
 
     // Cloudinary setup
     Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
@@ -93,6 +105,77 @@ public class report_issue extends AppCompatActivity {
         btnSubmit.setOnClickListener(v -> uploadIssue());
 
         requestLocationPermission();
+
+        // ---- VOICE BUTTON LOGIC ---
+        Button btnVoice = findViewById(R.id.btnVoice);
+        btnVoice.setOnClickListener(v -> startVoiceInput());
+    }
+
+    // ---- KANNADA VOICE INPUT & TRANSLATION ----
+    private void startVoiceInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "kn-IN"); // Kannada
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak in Kannada");
+        try {
+            startActivityForResult(intent, VOICE_REQ_CODE);
+        } catch (Exception e) {
+            Toast.makeText(this, "Voice input not supported", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void translateKannadaToEnglish(String kannadaText) {
+        TranslatorOptions options = new TranslatorOptions.Builder()
+                .setSourceLanguage(TranslateLanguage.KANNADA)
+                .setTargetLanguage(TranslateLanguage.ENGLISH)
+                .build();
+        final Translator translator = Translation.getClient(options);
+
+        ProgressDialog progress = ProgressDialog.show(this, null, "Translating...", true, false);
+
+        translator.downloadModelIfNeeded()
+                .addOnSuccessListener(unused ->
+                        translator.translate(kannadaText)
+                                .addOnSuccessListener(translatedText -> {
+                                    progress.dismiss();
+                                    etDescription.setText(translatedText);
+                                })
+                                .addOnFailureListener(e -> {
+                                    progress.dismiss();
+                                    Toast.makeText(this, "Translation failed", Toast.LENGTH_SHORT).show();
+                                })
+                )
+                .addOnFailureListener(e -> {
+                    progress.dismiss();
+                    Toast.makeText(this, "Model download failed", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // === Your camera/gallery logic ===
+        if (requestCode == CAMERA_PERMISSION_CODE && resultCode == RESULT_OK) {
+            Glide.with(this).load(imageUri).into(imagePreview);
+        }
+
+        if (requestCode == STORAGE_PERMISSION_CODE &&
+                resultCode == RESULT_OK &&
+                data != null &&
+                data.getData() != null) {
+            imageUri = data.getData();
+            Glide.with(this).load(imageUri).into(imagePreview);
+        }
+
+        // === Voice input logic ===
+        if (requestCode == VOICE_REQ_CODE && resultCode == RESULT_OK && data != null) {
+            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (result != null && !result.isEmpty()) {
+                String kannadaText = result.get(0);
+                translateKannadaToEnglish(kannadaText);
+            }
+        }
     }
 
     // ---------------- LOCATION PERMISSION ----------------
@@ -143,7 +226,6 @@ public class report_issue extends AppCompatActivity {
             tvLocation.setText("Unable to detect location.");
         }
     }
-
 
     // ---------------- SELECT IMAGE SOURCE ----------------
     private void showImageSourceDialog() {
@@ -260,7 +342,6 @@ public class report_issue extends AppCompatActivity {
                 Map uploadResult = cloudinary.uploader().upload(
                         new File(imagePath),
                         ObjectUtils.asMap(
-//                                "samparka", uploadPreset,
                                 "folder", "samparka"
                         )
                 );
@@ -289,9 +370,8 @@ public class report_issue extends AppCompatActivity {
         return RealPathUtil.getRealPath(this, imageUri);
     }
 
-    // ---------------- SAVE FIRESTORE ----------------
+    // ---------------- SAVE TO FIRESTORE ----------------
     private void saveIssueToFirestore(String issueType, String description, String imageUrl) {
-
         Map<String, Object> issue = new HashMap<>();
         issue.put("type", issueType);
         issue.put("description", description);
@@ -307,7 +387,7 @@ public class report_issue extends AppCompatActivity {
                         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
-    // ---------------- PERMISSION RESULTS ----------------
+    // ---------------- PERMISSIONS RESULT ----------------
     @RequiresPermission(allOf = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
     @Override
     public void onRequestPermissionsResult(int requestCode,
