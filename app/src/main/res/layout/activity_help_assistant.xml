@@ -89,7 +89,6 @@
         android:background="#fff"
         android:orientation="horizontal">
 
-
         <EditText
             android:id="@+id/etMessage"
             android:layout_width="0dp"
@@ -99,6 +98,9 @@
             android:background="@drawable/edittext_bg"
             android:padding="8dp"/>
 
+
+
+
         <ImageButton
             android:id="@+id/btnSend"
             android:layout_width="48dp"
@@ -106,7 +108,6 @@
             android:src="@drawable/ic_send"
             android:background="@drawable/rounded_button_bg"
             app:tint="#FFFFFF"
-
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 </LinearLayout>

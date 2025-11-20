@@ -13,7 +13,7 @@ public class RoadAuthorityDashboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dashboard_officer);
+        setContentView(R.layout.authority_dashboard);
 
         ivNotification = findViewById(R.id.ivNotification);
 

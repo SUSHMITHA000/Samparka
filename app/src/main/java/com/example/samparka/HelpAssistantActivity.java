@@ -1,13 +1,13 @@
 package com.example.samparka;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import android.view.View;
 
 public class HelpAssistantActivity extends AppCompatActivity {
 
@@ -32,12 +32,16 @@ public class HelpAssistantActivity extends AppCompatActivity {
             if (!text.isEmpty()) {
                 addUserMessage(text, "10:31 AM");
                 etMessage.setText("");
-                // Demo: respond for known message
+                // Demo: respond for known message (no translation)
                 if (text.equalsIgnoreCase("How do I report a complaint?")) {
-                    addBotMessage("To report a complaint, tap the \"Report Issue\" button on the home screen. Then upload a photo, select the issue type, and provide a description. Your location will be automatically tagged.", "10:31 AM");
+                    addBotMessage(
+                            "To report a complaint, tap the \"Report Issue\" button on the home screen. Then upload a photo, select the issue type, and provide a description. Your location will be automatically tagged.",
+                            "10:31 AM"
+                    );
                 }
             }
         });
+
         Button btnReportIssue = findViewById(R.id.btnReportIssue);
         Button btnTrackComplaint = findViewById(R.id.btnTrackComplaint);
         Button btnContact = findViewById(R.id.btnContact);
@@ -73,7 +77,4 @@ public class HelpAssistantActivity extends AppCompatActivity {
         ((TextView) view.findViewById(R.id.txtTime)).setText(time);
         chatContainer.addView(view);
     }
-
 }
-
-
