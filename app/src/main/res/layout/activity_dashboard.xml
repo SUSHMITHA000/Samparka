@@ -3,156 +3,216 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E3FFF4">
+    android:background="#E3FFF4"
+    tools:context=".DashboardActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Header -->
+        <!-- Greeting -->
+        <TextView
+            android:id="@+id/greetingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hi User"
+            android:textColor="#0EB858"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- GREEN TITLE BAR -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="70dp"
             android:background="#0EB858"
+            android:gravity="center_vertical"
             android:padding="16dp"
-            android:gravity="center">
+            android:orientation="horizontal">
 
-            <!-- Top row with notification and profile icons -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="end"
-                android:layout_marginBottom="8dp">
-
-                <ImageView
-                    android:id="@+id/notificationIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:contentDescription="Notifications"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_notifications" />
-
-                <Space
-                    android:layout_width="12dp"
-                    android:layout_height="wrap_content" />
-
-                <ImageView
-                    android:id="@+id/profileIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_profile"
-                android:contentDescription="Profile"
-                android:clickable="true"
-                android:focusable="true" />
-            </LinearLayout>
-
+            <!-- App Name -->
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Samparka"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="22sp"/>
-            <TextView
-                android:id="@+id/subtitle"
-                android:layout_width="wrap_content"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Your Community, Your Voice"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"/>
+                android:layout_weight="1" />
 
-            <!-- Stats Row -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="24dp"
-                android:gravity="center">
+            <!-- Notification Icon -->
+            <ImageView
+                android:id="@+id/notificationIcon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_notifications"
+                android:padding="4dp"
+                android:tint="#FFFFFF"
+                tools:ignore="UseAppTint" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:background="#30CF85"
-                    android:text="3\nTotal Reports"
-                    android:gravity="center"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:padding="8dp"/>
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="match_parent" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:background="#30CF85"
-                    android:text="1\nIn Progress"
-                    android:gravity="center"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:padding="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:background="#30CF85"
-                    android:text="1\nResolved"
-                    android:gravity="center"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:padding="8dp"/>
-            </LinearLayout>
+            <!-- Main Profile Icon (top right) -->
+            <ImageView
+                android:id="@+id/profileIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_profile"
+                android:background="@drawable/circle_green"
+                android:padding="5dp"
+                android:clickable="true"
+                android:focusable="true" />
         </LinearLayout>
 
-        <!-- Report New Issue Button -->
-        <Button
-            android:id="@+id/btnReportIssue"
+        <!-- Small Header Profile Section -->
+        <LinearLayout
+            android:id="@+id/profileSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="+ Report New Issue"
-            android:background="#30CF85"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
-            tools:ignore="HardcodedText" />
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="12dp"
+            android:background="#FFFFFF"
+            android:elevation="4dp">
 
-        <!-- My Reports & Help/Chat -->
+            <ImageView
+                android:id="@+id/userProfileSmall"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_profile"
+                android:background="@drawable/circle_green"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/userNameSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User"
+                android:textColor="#111827"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginStart="12dp" />
+        </LinearLayout>
+
+        <!-- Subtitle -->
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Community, Your Voice"
+            android:textColor="#0EB858"
+            android:textSize="16sp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Stats Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_marginBottom="12dp">
+            android:gravity="center"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/totalReports"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="#30CF85"
+                android:text="0\nTotal Reports"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/inProgressReports"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="#30CF85"
+                android:text="0\nIn Progress"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:padding="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/resolvedReports"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="#30CF85"
+                android:text="0\nResolved"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:padding="8dp" />
+
+        </LinearLayout>
+
+        <!-- Report New Issue -->
+        <LinearLayout
+            android:id="@+id/reportIssueSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="#00A651"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+ Report New Issue"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <!-- My Reports + Help Chat -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
             <Button
                 android:id="@+id/btnMyReports"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:text="My Reports"
-                android:background="#F0FFF9"
                 android:textColor="#0EB858"
                 android:textSize="16sp"
-                android:layout_marginEnd="4dp"/>
+                android:background="#F0FFF9"
+                android:layout_marginEnd="6dp" />
 
             <Button
                 android:id="@+id/btnHelpChat"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:text="Help &amp;Chat"
-                android:background="#F0FFF9"
+                android:text="Help Chat"
                 android:textColor="#0EB858"
                 android:textSize="16sp"
-                android:layout_marginStart="4dp"/>
+                android:background="#F0FFF9"
+                android:layout_marginStart="6dp" />
         </LinearLayout>
 
         <!-- Community Update -->
@@ -160,87 +220,13 @@
             android:id="@+id/communityUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#EAF5FF"
-            android:text="Community Update\nPanchayat meeting scheduled for April 20th at 3 PM"
-            android:textColor="#2C3E50"
+            android:text="Community Update\nNew Panchayat meeting announcement soon"
             android:textSize="16sp"
-            android:padding="12dp"
-            android:layout_marginBottom="8dp"/>
-
-        <!-- Recent Reports List -->
-
-        <!-- Report Card Example -->
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:layout_marginBottom="8dp"-->
-<!--            android:text="Recent Reports"-->
-<!--            android:textColor="#2C3E50"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textStyle="bold" />-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical">-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:background="#FFFFFF"-->
-<!--                android:padding="8dp"-->
-<!--                android:layout_marginBottom="8dp">-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="60dp"-->
-<!--                    android:layout_height="60dp"-->
-<!--                    android:src="@drawable/ic_pothole"-->
-<!--                    android:layout_gravity="center_vertical"-->
-<!--                    android:scaleType="centerCrop"-->
-<!--                    android:layout_marginEnd="8dp"/>-->
-
-<!--                <LinearLayout-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_weight="1">-->
-
-<!--                    <TextView-->
-<!--                        android:text="Pothole on Main Road"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textSize="16sp"-->
-<!--                        android:textColor="#2C3E50"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"/>-->
-<!--                    <TextView-->
-<!--                        android:text="Main Road, Near Bus Stand"-->
-<!--                        android:textSize="14sp"-->
-<!--                        android:textColor="#7B8B9A"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"/>-->
-<!--                    <TextView-->
-<!--                        android:text="In Progress"-->
-<!--                        android:textColor="#FF9800"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="4dp"/>-->
-<!--                </LinearLayout>-->
-<!--                <TextView-->
-<!--                    android:text="2025-04-10"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textColor="#B0BEC5"-->
-<!--                    android:textSize="13sp"-->
-<!--                    android:gravity="end"/>-->
-<!--            </LinearLayout>-->
-
-<!--            &lt;!&ndash; Add similar blocks for other reports &ndash;&gt;-->
-<!--        </LinearLayout>-->
-
-        <!-- Repeat the above report block for each report, or use RecyclerView for dynamic data -->
+            android:textColor="#2C3E50"
+            android:background="#EAF5FF"
+            android:padding="16dp"
+            android:layout_marginTop="16dp"
+            tools:ignore="HardcodedText" />
 
     </LinearLayout>
 </ScrollView>

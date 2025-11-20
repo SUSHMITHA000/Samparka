@@ -1,60 +1,87 @@
 package com.example.samparka;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DashboardActivity extends AppCompatActivity {
 
+    ImageView profileIcon, userProfileSmall;
+    TextView userNameSmall, greetingText;
+
+    LinearLayout profileSection, reportIssueSection;
+
+    FirebaseAuth auth;
+    FirebaseFirestore db;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        Button reportIssueBtn = findViewById(R.id.btnReportIssue);
-        Button myReportsBtn = findViewById(R.id.btnMyReports);
-        Button helpChatBtn = findViewById(R.id.btnHelpChat);
-        TextView communityUpdate = findViewById(R.id.communityUpdate);
-        ImageView notificationIcon = findViewById(R.id.notificationIcon);
-        ImageView profileIcon = findViewById(R.id.profileIcon); // Added line
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
-        // Open ReportIssueActivity when "Report New Issue" is clicked
-        reportIssueBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(DashboardActivity.this, report_issue.class);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        });
+        profileIcon = findViewById(R.id.profileIcon);
+        userProfileSmall = findViewById(R.id.userProfileSmall);
+        userNameSmall = findViewById(R.id.userNameSmall);
+        greetingText = findViewById(R.id.greetingText);
 
-        // Open ComplaintsActivity when "My Reports" is clicked
-        myReportsBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(DashboardActivity.this, ComplaintsActivity.class);
-            startActivity(intent);
-        });
+        reportIssueSection = findViewById(R.id.reportIssueSection);
+        profileSection = findViewById(R.id.profileSection);
 
-        // Open HelpAssistantActivity when "Help & Chat" is clicked
-        helpChatBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(DashboardActivity.this, HelpAssistantActivity.class);
-            startActivity(intent);
-        });
+        loadUserProfile(auth.getUid());
 
-        // Show info toast when community update is clicked
-        communityUpdate.setOnClickListener(v ->
-                Toast.makeText(this, "Panchayat Meeting Info", Toast.LENGTH_SHORT).show());
+        profileIcon.setOnClickListener(v ->
+                startActivity(new Intent(DashboardActivity.this, ProfileActivity.class))
+        );
 
-        // Open Notification Page when bell icon is tapped
-        notificationIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(DashboardActivity.this, NotificationsActivity.class);
-            startActivity(intent);
-        });
+        profileSection.setOnClickListener(v ->
+                startActivity(new Intent(DashboardActivity.this, ProfileActivity.class))
+        );
 
-        // Open Profile Page when profile icon is tapped
-        profileIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(DashboardActivity.this, ProfileActivity.class);
-            startActivity(intent);
-        });
+        reportIssueSection.setOnClickListener(v ->
+                startActivity(new Intent(DashboardActivity.this, report_issue.class))
+        );
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void loadUserProfile(String uid) {
+        if (uid == null) return;
+
+        db.collection("users").document(uid)
+                .get()
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists()) {
+
+                        String name = doc.getString("name");
+                        String photoUrl = doc.getString("photoUrl");
+
+                        if (name != null && !name.isEmpty()) {
+                            userNameSmall.setText(name);
+                            greetingText.setText("Hi " + name + " 👋");
+                        } else {
+                            greetingText.setText("Hi User 👋");
+                        }
+
+                        if (photoUrl != null && !photoUrl.isEmpty()) {
+                            Glide.with(this).load(photoUrl).circleCrop().into(profileIcon);
+                            Glide.with(this).load(photoUrl).circleCrop().into(userProfileSmall);
+                        } else {
+                            profileIcon.setImageResource(R.drawable.ic_profile);
+                            userProfileSmall.setImageResource(R.drawable.ic_profile);
+                        }
+                    }
+                });
     }
 }

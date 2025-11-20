@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -25,11 +26,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profile &amp; Settings"
+            android:text="Profile Settings"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginStart="16dp" />
+            android:layout_marginStart="16dp"
+            tools:ignore="HardcodedText" />
     </LinearLayout>
 
     <!-- Scrollable content -->
@@ -60,7 +62,8 @@
                     android:scaleType="centerCrop"
                     android:background="@drawable/circle_green"
                     android:padding="32dp"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    tools:ignore="ContentDescription" />
 
                 <Button
                     android:id="@+id/changePhotoButton"
@@ -69,7 +72,8 @@
                     android:text="Change Photo"
                     android:textColor="#16A34A"
                     android:background="@drawable/white_rounded_button"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="8dp"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
 
             <!-- Personal Information -->
@@ -84,16 +88,18 @@
                 android:backgroundTint="#FFFFFF"
                 android:layout_marginTop="16dp">
 
-                <!-- Full Name -->
+                <!-- Section Title -->
                 <TextView
-                    android:layout_width="341dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="Personal Information"
                     android:textColor="#000000"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
 
+                <!-- Full Name -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -101,7 +107,8 @@
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:textColor="#111827"
-                    android:layout_marginBottom="4dp" />
+                    android:layout_marginBottom="4dp"
+                    tools:ignore="HardcodedText" />
 
                 <EditText
                     android:id="@+id/fullNameEdit"
@@ -110,11 +117,36 @@
                     android:background="@drawable/edittext_background"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="Ramesh Kumar"
+                    android:text=""
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:inputType="textPersonName"
                     android:drawableStart="@drawable/ic_person"
+                    android:drawablePadding="8dp"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Email -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="#111827"
+                    android:layout_marginBottom="4dp" />
+
+                <EditText
+                    android:id="@+id/emailEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/edittext_background"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text=""
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:inputType="textEmailAddress"
+                    android:drawableStart="@drawable/ic_mail"
                     android:drawablePadding="8dp"
                     android:layout_marginBottom="12dp" />
 
@@ -135,7 +167,7 @@
                     android:background="@drawable/edittext_background"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="9876543210"
+                    android:text=""
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:inputType="phone"
@@ -143,34 +175,108 @@
                     android:drawablePadding="8dp"
                     android:layout_marginBottom="12dp" />
 
-                <!-- Location -->
+                <!-- PIN Code -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Location"
+                    android:text="PIN Code"
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:textColor="#111827"
                     android:layout_marginBottom="4dp" />
 
                 <EditText
-                    android:id="@+id/locationEdit"
+                    android:id="@+id/pinEdit"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:background="@drawable/edittext_background"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="Gandhi Nagar, Ward 3"
+                    android:text=""
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:inputType="number"
+                    android:hint="Enter 6-digit PIN"
+                    android:layout_marginBottom="12dp"
+                    tools:ignore="HardcodedText" />
+
+                <!-- City -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="City / Locality"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="#111827"
+                    android:layout_marginBottom="4dp"
+                    tools:ignore="HardcodedText" />
+
+                <EditText
+                    android:id="@+id/cityEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/edittext_background"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text=""
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:inputType="text"
-                    android:drawableStart="@drawable/ic_location"
-                    android:drawablePadding="8dp"
                     android:layout_marginBottom="12dp" />
+
+                <!-- State -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="State"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="#111827"
+                    android:layout_marginBottom="4dp"
+                    tools:ignore="HardcodedText" />
+
+                <EditText
+                    android:id="@+id/stateEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/edittext_background"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text=""
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:inputType="text"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Full Address -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="#111827"
+                    android:layout_marginBottom="4dp"
+                    tools:ignore="HardcodedText" />
+
+                <EditText
+                    android:id="@+id/locationEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp"
+                    android:background="@drawable/edittext_background"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text=" "
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:inputType="textMultiLine"
+                    android:gravity="top"
+                    android:layout_marginBottom="12dp"
+                    tools:ignore="HardcodedText" />
 
             </LinearLayout>
 
-            <!-- App Settings Card -->
+            <!-- App Settings -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -180,7 +286,6 @@
                 android:layout_margin="16dp"
                 android:elevation="4dp">
 
-                <!-- Section Title -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -188,9 +293,9 @@
                     android:textStyle="bold"
                     android:textColor="#000000"
                     android:textSize="16sp"
-                    android:layout_marginBottom="8dp" />
+                    android:layout_marginBottom="8dp"
+                    tools:ignore="HardcodedText" />
 
-                <!-- Language Label -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -198,9 +303,9 @@
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp" />
+                    android:layout_marginBottom="4dp"
+                    tools:ignore="HardcodedText" />
 
-                <!-- Language Dropdown -->
                 <Spinner
                     android:id="@+id/language_spinner"
                     android:layout_width="match_parent"
@@ -213,7 +318,7 @@
                     android:popupBackground="#FFFFFF" />
             </LinearLayout>
 
-            <!-- Save Changes Button -->
+            <!-- Buttons -->
             <Button
                 android:id="@+id/saveButton"
                 android:layout_width="match_parent"
@@ -222,20 +327,20 @@
                 android:text="Save Changes"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                tools:ignore="HardcodedText" />
 
-            <!-- Help & Feedback Button -->
             <Button
                 android:id="@+id/helpButton"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:backgroundTint="#E5E7EB"
-                android:text="Help &amp; Feedback"
+                android:text="Help  Feedback"
                 android:textColor="#000000"
                 android:textStyle="bold"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                tools:ignore="HardcodedText" />
 
-            <!-- Logout Button -->
             <Button
                 android:id="@+id/logoutButton"
                 android:layout_width="match_parent"
@@ -244,7 +349,8 @@
                 android:text="Logout"
                 android:textColor="#E53935"
                 android:textStyle="bold"
-                android:layout_marginBottom="24dp" />
+                android:layout_marginBottom="24dp"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

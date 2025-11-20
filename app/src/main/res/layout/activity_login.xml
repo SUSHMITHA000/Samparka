@@ -19,7 +19,6 @@
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:src="@drawable/ic_leaf_logo"
-            android:contentDescription="@string/leaf_logo_desc"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="12dp"
             app:tint="#16A34A" />
@@ -59,11 +58,10 @@
                 android:layout_height="20dp"
                 android:src="@drawable/ic_person"
                 android:tint="#6B7280"
-                android:layout_marginEnd="8dp"
-                tools:ignore="UseAppTint" />
+                android:layout_marginEnd="8dp" />
 
             <EditText
-                android:id="@+id/nameEditText"
+                android:id="@+id/nameEdit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Enter your name"
@@ -88,12 +86,11 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_mail"
-                android:contentDescription="@string/email_icon_desc"
                 android:layout_marginEnd="8dp"
                 app:tint="#6B7280"/>
 
             <EditText
-                android:id="@+id/emailEditText"
+                android:id="@+id/emailEdit"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="@string/email_hint"
@@ -119,18 +116,17 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@android:drawable/ic_lock_idle_lock"
-                android:contentDescription="@string/password_icon_desc"
                 android:layout_marginEnd="8dp"
                 app:tint="#6B7280"/>
 
             <EditText
-                android:id="@+id/passwordEditText"
+                android:id="@+id/passwordEdit"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="@string/password_hint"
-                android:inputType="textPassword"
                 android:textColor="#000000"
                 android:textSize="16sp"
+                android:inputType="textPassword"
                 android:background="@android:color/transparent"
                 android:autofillHints="password" />
         </LinearLayout>
@@ -157,7 +153,6 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="16dp"
             android:padding="4dp"/>
-
 
         <!-- GOOGLE SIGN-IN -->
         <com.google.android.gms.common.SignInButton

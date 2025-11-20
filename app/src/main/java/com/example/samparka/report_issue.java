@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +28,9 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
@@ -42,16 +44,17 @@ public class report_issue extends AppCompatActivity {
 
     Spinner spinnerIssueType;
     EditText etDescription;
-    TextView tvLocation;
+    TextView tvLocation, userNameSmall;
     Button btnSubmit;
     LinearLayout uploadSection;
-    ImageView imagePreview;
+    ImageView imagePreview, userProfileSmall, profileIcon;
 
     Uri imageUri = null;
     File cameraImageFile;
     String currentAddress = "Unable to detect location. Move outside.";
 
     FirebaseFirestore db;
+    FirebaseAuth auth;
 
     private static final int CAMERA_PERMISSION_CODE = 101;
     private static final int STORAGE_PERMISSION_CODE = 102;
@@ -63,9 +66,7 @@ public class report_issue extends AppCompatActivity {
             "api_key", "939937542917265",
             "api_secret", "swOxStKjCgXcjh6AaGcvprTVoH0"
     ));
-    String uploadPreset = "samparka_unsigned";
 
-    // Location
     FusedLocationProviderClient fusedLocationClient;
 
     @Override
@@ -80,10 +81,15 @@ public class report_issue extends AppCompatActivity {
         imagePreview = findViewById(R.id.imagePreview);
         tvLocation = findViewById(R.id.tvLocation);
 
+        // Header elements
+        userProfileSmall = findViewById(R.id.userProfileSmall);
+        userNameSmall = findViewById(R.id.userNameSmall);
+        profileIcon = findViewById(R.id.profileIcon);
+
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        // Dropdown Data
         String[] issues = {"Roads & Infrastructure", "Water Supply", "Electricity",
                 "Waste Management", "Drainage", "Health & Sanitation", "Other"};
         spinnerIssueType.setAdapter(new ArrayAdapter<>(this,
@@ -93,11 +99,58 @@ public class report_issue extends AppCompatActivity {
         btnSubmit.setOnClickListener(v -> uploadIssue());
 
         requestLocationPermission();
+        loadUserProfileHeader();
+
+        if (userProfileSmall != null)
+            userProfileSmall.setOnClickListener(v -> startActivity(new Intent(report_issue.this, ProfileActivity.class)));
+
+        if (profileIcon != null)
+            profileIcon.setOnClickListener(v -> startActivity(new Intent(report_issue.this, ProfileActivity.class)));
+    }
+
+    // ---------------- USER HEADER (name + photo) ----------------
+    private void loadUserProfileHeader() {
+        FirebaseUser user = auth.getCurrentUser();
+        if (user == null) return;
+
+        String uid = user.getUid();
+
+        db.collection("users").document(uid)
+                .get()
+                .addOnSuccessListener((DocumentSnapshot doc) -> {
+                    if (doc.exists()) {
+
+                        // Fetch name
+                        String name = doc.getString("name");
+                        if (name != null && !name.isEmpty()) {
+                            userNameSmall.setText("Hi " + name);
+                        } else if (user.getDisplayName() != null) {
+                            userNameSmall.setText("Hi " + user.getDisplayName());
+                        }
+
+                        // Fetch photo
+                        String photoUrl = doc.getString("photoUrl");
+                        if (photoUrl != null && !photoUrl.isEmpty()) {
+                            Glide.with(this)
+                                    .load(photoUrl)
+                                    .circleCrop()
+                                    .into(userProfileSmall);
+                        }
+                    } else {
+                        // fallback to FirebaseUser
+                        if (user.getDisplayName() != null)
+                            userNameSmall.setText("Hi " + user.getDisplayName());
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    if (user.getDisplayName() != null)
+                        userNameSmall.setText("Hi " + user.getDisplayName());
+                });
     }
 
     // ---------------- LOCATION PERMISSION ----------------
     private void requestLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(
@@ -119,24 +172,23 @@ public class report_issue extends AppCompatActivity {
                     if (location != null) {
                         getAddressFromCoordinates(location.getLatitude(), location.getLongitude());
                     } else {
-                        tvLocation.setText("Unable to detect location. Move outside.");
+                        tvLocation.setText("Unable to detect location.");
                     }
                 })
                 .addOnFailureListener(e -> tvLocation.setText("Unable to detect location."));
     }
 
-    // ---------------- CONVERT LAT/LON TO ADDRESS ----------------
+    // ---------------- COORDINATES → ADDRESS ----------------
     @SuppressLint("SetTextI18n")
-    private void getAddressFromCoordinates(double latitude, double longitude) {
+    private void getAddressFromCoordinates(double lat, double lon) {
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         try {
-            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
 
             if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
                 currentAddress = address.getAddressLine(0);
-
                 tvLocation.setText("Auto-detected: " + currentAddress);
             }
         } catch (Exception e) {
@@ -144,8 +196,7 @@ public class report_issue extends AppCompatActivity {
         }
     }
 
-
-    // ---------------- SELECT IMAGE SOURCE ----------------
+    // ---------------- IMAGE PICKER ----------------
     private void showImageSourceDialog() {
         String[] options = {"Take Photo", "Choose from Gallery"};
         new AlertDialog.Builder(this)
@@ -189,7 +240,7 @@ public class report_issue extends AppCompatActivity {
         }
     }
 
-    // ---------------- OPEN CAMERA ----------------
+    // ---------------- CAMERA ----------------
     private void openCamera() {
         try {
             cameraImageFile = File.createTempFile("issue_", ".jpg",
@@ -215,7 +266,7 @@ public class report_issue extends AppCompatActivity {
                         }
                     });
 
-    // ---------------- OPEN GALLERY ----------------
+    // ---------------- GALLERY ----------------
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -233,7 +284,7 @@ public class report_issue extends AppCompatActivity {
                         }
                     });
 
-    // ---------------- UPLOAD ISSUE ----------------
+    // ---------------- SUBMIT ISSUE ----------------
     private void uploadIssue() {
         String issueType = spinnerIssueType.getSelectedItem().toString();
         String description = etDescription.getText().toString().trim();
@@ -259,10 +310,7 @@ public class report_issue extends AppCompatActivity {
 
                 Map uploadResult = cloudinary.uploader().upload(
                         new File(imagePath),
-                        ObjectUtils.asMap(
-//                                "samparka", uploadPreset,
-                                "folder", "samparka"
-                        )
+                        ObjectUtils.asMap("folder", "samparka")
                 );
 
                 String imageUrl = uploadResult.get("secure_url").toString();
@@ -289,7 +337,7 @@ public class report_issue extends AppCompatActivity {
         return RealPathUtil.getRealPath(this, imageUri);
     }
 
-    // ---------------- SAVE FIRESTORE ----------------
+    // ---------------- SAVE TO FIRESTORE ----------------
     private void saveIssueToFirestore(String issueType, String description, String imageUrl) {
 
         Map<String, Object> issue = new HashMap<>();
@@ -298,6 +346,9 @@ public class report_issue extends AppCompatActivity {
         issue.put("imageUrl", imageUrl);
         issue.put("address", currentAddress);
         issue.put("timestamp", System.currentTimeMillis());
+
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) issue.put("userId", user.getUid());
 
         db.collection("issues")
                 .add(issue)
@@ -319,20 +370,17 @@ public class report_issue extends AppCompatActivity {
         if (requestCode == LOCATION_PERMISSION_CODE &&
                 grantResults.length > 0 &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
             fetchCurrentLocation();
         }
 
         if (requestCode == CAMERA_PERMISSION_CODE &&
                 grantResults.length > 0 &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
             openCamera();
 
         } else if (requestCode == STORAGE_PERMISSION_CODE &&
                 grantResults.length > 0 &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
             openGallery();
         }
     }

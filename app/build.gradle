@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.example.samparka'
-    compileSdk 36  // <-- updated here
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.example.samparka"
@@ -22,44 +22,39 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
 }
 
-
 dependencies {
+
+    // Android Base Libraries
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
-    implementation libs.firebase.storage
-    testImplementation libs.junit
-    androidTestImplementation libs.ext.junit
-    androidTestImplementation libs.espresso.core
+
+    // Volley
     implementation 'com.android.volley:volley:1.2.1'
 
-    // ✅ Use Firebase BoM (Bill of Materials)
+    // Firebase (BoM)
     implementation platform('com.google.firebase:firebase-bom:33.5.1')
-
-    // ✅ Add Firebase services (no version numbers now — managed by BoM)
-    //noinspection UseTomlInstead
-    implementation 'com.google.firebase:firebase-storage'
-    implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-storage'
     implementation 'com.google.firebase:firebase-database'
+
+    // Google services
+    implementation 'com.google.android.gms:play-services-auth:21.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.2.0'
+
+    // Cloudinary
     implementation 'com.cloudinary:cloudinary-android:3.1.2'
-    // ✅ Glide for image loading
+
+    // Glide (correct dependency)
     implementation 'com.github.bumptech.glide:glide:4.15.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
-
-    implementation 'com.google.android.gms:play-services-location:21.0.1'
-
-
-    implementation 'com.google.android.gms:play-services-auth:20.7.0'
-    implementation 'com.google.firebase:firebase-auth:22.1.2'
-
-
 }
-

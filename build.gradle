@@ -1,4 +1,4 @@
-// ✅ Project-level build.gradle (compatible with your version)
+// ✅ Project-level build.gradle (compatible with your version catalog)
 
 plugins {
     alias(libs.plugins.android.application) apply false
