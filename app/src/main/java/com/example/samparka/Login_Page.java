@@ -1,5 +1,6 @@
 package com.example.samparka;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -51,6 +52,7 @@ public class Login_Page extends AppCompatActivity {
                 }
             });
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,13 +109,21 @@ public class Login_Page extends AppCompatActivity {
                     firebaseAuth.createUserWithEmailAndPassword(email, password)
                             .addOnSuccessListener(result -> {
 
+                                String uid = firebaseAuth.getUid();
+
                                 // Save name & email in Firestore
                                 Map<String, Object> userData = new HashMap<>();
                                 userData.put("name", name);
                                 userData.put("email", email);
+                                userData.put("phone", "");
+                                userData.put("city", "");
+                                userData.put("state", "");
+                                userData.put("pin", "");
+                                userData.put("location", "");
+                                userData.put("photoUrl", "");
 
                                 db.collection("users")
-                                        .document(email)
+                                        .document(uid)
                                         .set(userData);
 
                                 Toast.makeText(this, "Account Created & Logged In!", Toast.LENGTH_SHORT).show();
@@ -131,12 +141,20 @@ public class Login_Page extends AppCompatActivity {
                     GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
 
                     if (acc != null) {
+                        String uid = firebaseAuth.getUid();
+
                         Map<String, Object> userData = new HashMap<>();
                         userData.put("name", acc.getDisplayName());
                         userData.put("email", acc.getEmail());
+                        userData.put("phone", "");
+                        userData.put("city", "");
+                        userData.put("state", "");
+                        userData.put("pin", "");
+                        userData.put("location", "");
+                        userData.put("photoUrl", "");
 
                         db.collection("users")
-                                .document(acc.getEmail())
+                                .document(uid)
                                 .set(userData);
                     }
 
