@@ -1,4 +1,6 @@
 package com.example.samparka;
+import com.google.firebase.auth.FirebaseAuth;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -7,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,14 +42,15 @@ public class report_issue extends AppCompatActivity {
 
     Spinner spinnerIssueType;
     EditText etDescription;
-    TextView tvLocation;
-    Button btnSubmit;
-    LinearLayout uploadSection;
-    ImageView imagePreview;
+    TextView tvLocation, userNameSmall;
+    Button btnSubmit, btnUploadPhoto;
+    ImageView imagePreview, userProfileSmall;
+    LinearLayout previewContainer;
 
     Uri imageUri = null;
     File cameraImageFile;
-    String currentAddress = "Unable to detect location. Move outside.";
+
+    String currentAddress = "Unable to detect location.";
 
     FirebaseFirestore db;
 
@@ -62,7 +64,6 @@ public class report_issue extends AppCompatActivity {
             "api_key", "939937542917265",
             "api_secret", "swOxStKjCgXcjh6AaGcvprTVoH0"
     ));
-    String uploadPreset = "samparka_unsigned";
 
     // Location
     FusedLocationProviderClient fusedLocationClient;
@@ -72,36 +73,64 @@ public class report_issue extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_issue);
 
+        // UI INIT
         spinnerIssueType = findViewById(R.id.spinnerIssueType);
         etDescription = findViewById(R.id.etDescription);
-        btnSubmit = findViewById(R.id.btnSubmit);
-        uploadSection = findViewById(R.id.uploadSection);
-        imagePreview = findViewById(R.id.imagePreview);
         tvLocation = findViewById(R.id.tvLocation);
+        btnSubmit = findViewById(R.id.btnSubmit);
+        btnUploadPhoto = findViewById(R.id.btnUploadPhoto);
+        previewContainer = findViewById(R.id.previewContainer);
+        imagePreview = findViewById(R.id.imagePreview);
+        userNameSmall = findViewById(R.id.userNameSmall);
+        userProfileSmall = findViewById(R.id.userProfileSmall);
 
         db = FirebaseFirestore.getInstance();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        // Dropdown Data
-        String[] issues = {"Roads & Infrastructure", "Water Supply", "Electricity",
-                "Waste Management", "Drainage", "Health & Sanitation", "Other"};
+        // Dropdown data
+        String[] issues = {
+                "Roads & Infrastructure", "Water Supply", "Electricity",
+                "Waste Management", "Drainage", "Health & Sanitation", "Other"
+        };
         spinnerIssueType.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, issues));
 
-        uploadSection.setOnClickListener(v -> showImageSourceDialog());
+        btnUploadPhoto.setOnClickListener(v -> showImageSourceDialog());
         btnSubmit.setOnClickListener(v -> uploadIssue());
 
+        loadUserTopBar();
         requestLocationPermission();
+    }
+
+    // Load user name & photo at top bar
+    private void loadUserTopBar() {
+        String emailKey = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        db.collection("users").document(emailKey)
+                .get().addOnSuccessListener(doc -> {
+                    if (doc.exists()) {
+
+                        String name = doc.getString("name");
+                        String photo = doc.getString("photoUrl");
+
+                        if (name != null) userNameSmall.setText(name);
+
+                        if (photo != null && !photo.isEmpty()) {
+                            Glide.with(this).load(photo).circleCrop().into(userProfileSmall);
+                        }
+                    }
+                });
     }
 
     // ---------------- LOCATION PERMISSION ----------------
     private void requestLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(
                     this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
                     LOCATION_PERMISSION_CODE
             );
         } else {
@@ -110,9 +139,21 @@ public class report_issue extends AppCompatActivity {
     }
 
     // ---------------- FETCH CURRENT LOCATION ----------------
-    @SuppressLint("SetTextI18n")
-    @RequiresPermission(allOf = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+    @SuppressLint("MissingPermission")
     private void fetchCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    LOCATION_PERMISSION_CODE
+            );
+            return;
+        }
+
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(location -> {
                     if (location != null) {
@@ -124,60 +165,60 @@ public class report_issue extends AppCompatActivity {
                 .addOnFailureListener(e -> tvLocation.setText("Unable to detect location."));
     }
 
-    // ---------------- CONVERT LAT/LON TO ADDRESS ----------------
+
+    // ---------------- COORDINATES ⇒ ADDRESS ----------------
     @SuppressLint("SetTextI18n")
-    private void getAddressFromCoordinates(double latitude, double longitude) {
+    private void getAddressFromCoordinates(double lat, double lon) {
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         try {
-            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            List<Address> list = geocoder.getFromLocation(lat, lon, 1);
 
-            if (addresses != null && !addresses.isEmpty()) {
-                Address address = addresses.get(0);
-                currentAddress = address.getAddressLine(0);
-
+            if (list != null && !list.isEmpty()) {
+                currentAddress = list.get(0).getAddressLine(0);
                 tvLocation.setText("Auto-detected: " + currentAddress);
             }
-        } catch (Exception e) {
-            tvLocation.setText("Unable to detect location.");
-        }
+        } catch (Exception ignored) {}
     }
 
-
-    // ---------------- SELECT IMAGE SOURCE ----------------
+    // ---------------- IMAGE PICK DIALOG ----------------
     private void showImageSourceDialog() {
         String[] options = {"Take Photo", "Choose from Gallery"};
+
         new AlertDialog.Builder(this)
                 .setTitle("Select Image Source")
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) checkCameraPermission();
                     else checkStoragePermission();
-                })
-                .show();
+                }).show();
     }
 
+    // ---------------- CAMERA PERMISSION ----------------
     private void checkCameraPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
-
+                    new String[]{Manifest.permission.CAMERA},
+                    CAMERA_PERMISSION_CODE);
         } else openCamera();
     }
 
+    // ---------------- STORAGE PERMISSION ----------------
     private void checkStoragePermission() {
         if (Build.VERSION.SDK_INT >= 33) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_MEDIA_IMAGES)
                     != PackageManager.PERMISSION_GRANTED) {
 
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_MEDIA_IMAGES},
                         STORAGE_PERMISSION_CODE);
-
             } else openGallery();
+
         } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
 
                 ActivityCompat.requestPermissions(this,
@@ -202,7 +243,8 @@ public class report_issue extends AppCompatActivity {
             cameraLauncher.launch(intent);
 
         } catch (IOException e) {
-            Toast.makeText(this, "Camera error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Camera error: " + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -210,7 +252,7 @@ public class report_issue extends AppCompatActivity {
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == RESULT_OK) {
-                            Glide.with(this).load(imageUri).into(imagePreview);
+                            showPreviewImage(imageUri);
                         }
                     });
 
@@ -228,16 +270,22 @@ public class report_issue extends AppCompatActivity {
                                 result.getData() != null) {
 
                             imageUri = result.getData().getData();
-                            Glide.with(this).load(imageUri).into(imagePreview);
+                            showPreviewImage(imageUri);
                         }
                     });
 
+    // ---------------- Show image in preview box ----------------
+    private void showPreviewImage(Uri uri) {
+        imagePreview.setVisibility(ImageView.VISIBLE);
+        Glide.with(this).load(uri).into(imagePreview);
+    }
+
     // ---------------- UPLOAD ISSUE ----------------
     private void uploadIssue() {
-        String issueType = spinnerIssueType.getSelectedItem().toString();
-        String description = etDescription.getText().toString().trim();
+        String type = spinnerIssueType.getSelectedItem().toString();
+        String desc = etDescription.getText().toString().trim();
 
-        if (description.isEmpty()) {
+        if (desc.isEmpty()) {
             Toast.makeText(this, "Enter description", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -246,54 +294,52 @@ public class report_issue extends AppCompatActivity {
         dialog.setMessage("Uploading...");
         dialog.show();
 
+        // No image → only save issue
         if (imageUri == null) {
-            saveIssueToFirestore(issueType, description, null);
             dialog.dismiss();
+            saveIssueToFirestore(type, desc, null);
             return;
         }
 
+        // Upload to Cloudinary in background thread
         new Thread(() -> {
             try {
                 String imagePath = getImageFilePath();
 
                 Map uploadResult = cloudinary.uploader().upload(
                         new File(imagePath),
-                        ObjectUtils.asMap(
-//                                "samparka", uploadPreset,
-                                "folder", "samparka"
-                        )
+                        ObjectUtils.asMap("folder", "samparka")
                 );
 
-                String imageUrl = uploadResult.get("secure_url").toString();
+                String url = uploadResult.get("secure_url").toString();
 
                 runOnUiThread(() -> {
                     dialog.dismiss();
-                    saveIssueToFirestore(issueType, description, imageUrl);
+                    saveIssueToFirestore(type, desc, url);
                 });
 
             } catch (Exception e) {
                 runOnUiThread(() -> {
                     dialog.dismiss();
                     Toast.makeText(this,
-                            "Upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            "Upload failed: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
                 });
             }
         }).start();
     }
 
     private String getImageFilePath() {
-        if (cameraImageFile != null)
-            return cameraImageFile.getAbsolutePath();
-
+        if (cameraImageFile != null) return cameraImageFile.getAbsolutePath();
         return RealPathUtil.getRealPath(this, imageUri);
     }
 
-    // ---------------- SAVE FIRESTORE ----------------
-    private void saveIssueToFirestore(String issueType, String description, String imageUrl) {
+    // ---------------- SAVE ISSUE ----------------
+    private void saveIssueToFirestore(String type, String desc, String imageUrl) {
 
         Map<String, Object> issue = new HashMap<>();
-        issue.put("type", issueType);
-        issue.put("description", description);
+        issue.put("type", type);
+        issue.put("description", desc);
         issue.put("imageUrl", imageUrl);
         issue.put("address", currentAddress);
         issue.put("timestamp", System.currentTimeMillis());
@@ -301,13 +347,13 @@ public class report_issue extends AppCompatActivity {
         db.collection("issues")
                 .add(issue)
                 .addOnSuccessListener(doc ->
-                        Toast.makeText(this, "Issue submitted!", Toast.LENGTH_SHORT).show())
+                        Toast.makeText(this, "Issue Submitted!", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e ->
-                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        Toast.makeText(this, "Error: " + e.getMessage(),
+                                Toast.LENGTH_SHORT).show());
     }
 
-    // ---------------- PERMISSION RESULTS ----------------
-    @RequiresPermission(allOf = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+    // ---------------- PERMISSION RESULT ----------------
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -318,20 +364,18 @@ public class report_issue extends AppCompatActivity {
         if (requestCode == LOCATION_PERMISSION_CODE &&
                 grantResults.length > 0 &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
             fetchCurrentLocation();
         }
 
         if (requestCode == CAMERA_PERMISSION_CODE &&
                 grantResults.length > 0 &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
             openCamera();
+        }
 
-        } else if (requestCode == STORAGE_PERMISSION_CODE &&
+        if (requestCode == STORAGE_PERMISSION_CODE &&
                 grantResults.length > 0 &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
             openGallery();
         }
     }
