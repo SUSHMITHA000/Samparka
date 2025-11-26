@@ -3,6 +3,7 @@ package com.example.samparka;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +22,7 @@ public class authorityportal extends AppCompatActivity {
     // Login Fields
     EditText etLoginAuthorityId, etLoginPassword;
     ImageView iconPasswordLogin;
+    Button btnLogin;  // Login button inside login layout
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,9 @@ public class authorityportal extends AppCompatActivity {
         etLoginPassword = findViewById(R.id.etLoginPassword);
         iconPasswordLogin = findViewById(R.id.iconPasswordLogin);
 
+        // Login button
+        btnLogin = findViewById(R.id.btnLogin);
+
         // Default → Register
         showRegister();
 
@@ -54,23 +59,21 @@ public class authorityportal extends AppCompatActivity {
 
         // PASSWORD TOGGLE
         iconPasswordLogin.setOnClickListener(v -> {
-
             if (etLoginPassword.getInputType() ==
                     (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
-
                 // Show password
                 etLoginPassword.setInputType(
                         InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-
             } else {
-
                 // Hide password
                 etLoginPassword.setInputType(
                         InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             }
-
             etLoginPassword.setSelection(etLoginPassword.getText().length());
         });
+
+        // Login button click listener to show login layout
+        btnLogin.setOnClickListener(v -> showLogin());
     }
 
     private void showRegister() {
