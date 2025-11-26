@@ -277,8 +277,21 @@ public class report_issue extends AppCompatActivity {
     // ---------------- Show image in preview box ----------------
     private void showPreviewImage(Uri uri) {
         imagePreview.setVisibility(ImageView.VISIBLE);
-        Glide.with(this).load(uri).into(imagePreview);
+
+        // Load image without zooming
+        Glide.with(this)
+                .load(uri)
+                .fitCenter()
+                .into(imagePreview);
+
+        // --- FULL SCREEN PREVIEW ON CLICK ---
+        imagePreview.setOnClickListener(v -> {
+            Intent intent = new Intent(report_issue.this, FullScreenImageActivity.class);
+            intent.putExtra("imageUrl", uri.toString());
+            startActivity(intent);
+        });
     }
+
 
     // ---------------- UPLOAD ISSUE ----------------
     private void uploadIssue() {
