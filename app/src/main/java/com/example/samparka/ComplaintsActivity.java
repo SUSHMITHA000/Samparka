@@ -20,6 +20,7 @@ import java.util.List;
 public class ComplaintsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ComplaintAdapter adapter;
+
     List<Complaint> complaintList, filteredList;
     Button btnAll, btnPending, btnProgress, btnDone;
     Spinner spinnerCategory;

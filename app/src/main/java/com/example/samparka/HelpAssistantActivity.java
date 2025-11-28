@@ -13,6 +13,7 @@ public class HelpAssistantActivity extends AppCompatActivity {
 
     private LinearLayout chatContainer;
     private EditText etMessage;
+
     private ImageButton btnSend;
 
     @Override
