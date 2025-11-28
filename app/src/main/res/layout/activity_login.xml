@@ -58,10 +58,11 @@
                 android:layout_height="20dp"
                 android:src="@drawable/ic_person"
                 android:tint="#6B7280"
-                android:layout_marginEnd="8dp" />
+                android:layout_marginEnd="8dp"
+                tools:ignore="UseAppTint" />
 
             <EditText
-                android:id="@+id/nameEdit"
+                android:id="@+id/nameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Enter your name"
@@ -90,7 +91,7 @@
                 app:tint="#6B7280"/>
 
             <EditText
-                android:id="@+id/emailEdit"
+                android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="@string/email_hint"
@@ -120,7 +121,7 @@
                 app:tint="#6B7280"/>
 
             <EditText
-                android:id="@+id/passwordEdit"
+                android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="@string/password_hint"
