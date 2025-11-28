@@ -89,8 +89,7 @@ public class report_issue extends AppCompatActivity {
 
         // Dropdown data
         String[] issues = {
-                "Roads & Infrastructure", "Water Supply", "Electricity",
-                "Waste Management", "Drainage", "Health & Sanitation", "Other"
+                "Pot Hole",  "Street Light", "Drainage"
         };
         spinnerIssueType.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, issues));
@@ -139,7 +138,7 @@ public class report_issue extends AppCompatActivity {
     }
 
     // ---------------- FETCH CURRENT LOCATION ----------------
-    @SuppressLint("MissingPermission")
+    @SuppressLint({"MissingPermission", "SetTextI18n"})
     private void fetchCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
