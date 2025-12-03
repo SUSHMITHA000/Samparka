@@ -1,12 +1,9 @@
 package com.example.samparka;
 
-import android.widget.Button;
-import android.view.View;
-
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +21,8 @@ public class DashboardActivity extends AppCompatActivity {
 
     LinearLayout profileSection, reportIssueSection;
 
+    Button btnMyReports, btnHelpChat;  // ⭐ ADD THESE
+
     FirebaseAuth auth;
     FirebaseFirestore db;
 
@@ -36,16 +35,23 @@ public class DashboardActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        // TOP BAR ITEMS
         profileIcon = findViewById(R.id.profileIcon);
         userProfileSmall = findViewById(R.id.userProfileSmall);
         userNameSmall = findViewById(R.id.userNameSmall);
         greetingText = findViewById(R.id.greetingText);
 
-        reportIssueSection = findViewById(R.id.reportIssueSection);
+        // SECTIONS
         profileSection = findViewById(R.id.profileSection);
+        reportIssueSection = findViewById(R.id.reportIssueSection);
+
+        // ⭐ FIND BUTTONS
+        btnMyReports = findViewById(R.id.btnMyReports);
+        btnHelpChat = findViewById(R.id.btnHelpChat);
 
         loadUserProfile(auth.getUid());
 
+        // OPEN PROFILE PAGE
         profileIcon.setOnClickListener(v ->
                 startActivity(new Intent(DashboardActivity.this, ProfileActivity.class))
         );
@@ -54,16 +60,20 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(new Intent(DashboardActivity.this, ProfileActivity.class))
         );
 
+        // OPEN REPORT ISSUE PAGE
         reportIssueSection.setOnClickListener(v ->
                 startActivity(new Intent(DashboardActivity.this, report_issue.class))
         );
 
-        Button btnHelpChat = findViewById(R.id.btnHelpChat);
+        // ⭐ OPEN MY REPORTS PAGE
+        btnMyReports.setOnClickListener(v ->
+                startActivity(new Intent(DashboardActivity.this, ComplaintsActivity.class))
+        );
 
+        // ⭐ OPEN HELP CHAT PAGE
         btnHelpChat.setOnClickListener(v ->
                 startActivity(new Intent(DashboardActivity.this, HelpAssistantActivity.class))
         );
-
     }
 
     @SuppressLint("SetTextI18n")

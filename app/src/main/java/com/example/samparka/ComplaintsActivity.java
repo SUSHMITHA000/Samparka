@@ -26,7 +26,7 @@ public class ComplaintsActivity extends AppCompatActivity {
     Spinner spinnerCategory;
     ImageView imgFilterIcon;
 
-    String[] categories = {"All Categories", "Roads", "Water", "Electricity", "Waste", "Drainage"};
+    String[] categories = {"All Categories", "Street Light",  "Pothole", "Drainage"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
