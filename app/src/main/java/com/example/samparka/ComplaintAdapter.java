@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import com.bumptech.glide.Glide;
+
 
 public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.ViewHolder> {
 
@@ -55,7 +57,15 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
         Complaint c = complaints.get(position);
 
         // Image
-        holder.imgComplaint.setImageResource(R.drawable.ic_placeholder);
+        if (c.imageUrl != null && !c.imageUrl.isEmpty()) {
+            Glide.with(holder.itemView.getContext())
+                    .load(c.imageUrl)
+                    .placeholder(R.drawable.ic_placeholder)
+                    .into(holder.imgComplaint);
+        } else {
+            holder.imgComplaint.setImageResource(R.drawable.ic_placeholder);
+        }
+
 
         // Texts
         holder.txtTitle.setText(c.title);
