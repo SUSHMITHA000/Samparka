@@ -411,21 +411,31 @@ public class report_issue extends AppCompatActivity {
     // ---------------- SAVE ISSUE ----------------
     private void saveIssueToFirestore(String type, String desc, String imageUrl) {
 
+        String uid = null;
+        try {
+            uid = com.google.firebase.auth.FirebaseAuth.getInstance().getUid();
+        } catch (Exception ignored) {}
+
         Map<String, Object> issue = new HashMap<>();
+        issue.put("userId", uid);                     // who submitted the issue
         issue.put("type", type);
         issue.put("description", desc);
         issue.put("imageUrl", imageUrl);
         issue.put("address", currentAddress);
+        issue.put("status", "Pending");               // default status
+        issue.put("priority", "Normal");              // default priority
+        issue.put("assignedTo", null);                // no authority yet
         issue.put("timestamp", System.currentTimeMillis());
 
         db.collection("issues")
                 .add(issue)
-                .addOnSuccessListener(doc ->
-                        Toast.makeText(this, "Issue Submitted!", Toast.LENGTH_SHORT).show())
+                .addOnSuccessListener(doc -> {
+                    Toast.makeText(this, "Issue Submitted!", Toast.LENGTH_SHORT).show();
+                })
                 .addOnFailureListener(e ->
-                        Toast.makeText(this, "Error: " + e.getMessage(),
-                                Toast.LENGTH_SHORT).show());
+                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
+
 
     // ---------------- PERMISSION RESULT ----------------
     @Override
