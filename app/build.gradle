@@ -26,6 +26,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+    aaptOptions {
+        noCompress "tflite"
+    }
 }
 
 
@@ -60,6 +63,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
     implementation 'com.google.firebase:firebase-auth:22.1.2'
 
+    implementation "org.tensorflow:tensorflow-lite:2.14.0"
+    implementation "org.tensorflow:tensorflow-lite-support:0.4.3"
 
 }
 

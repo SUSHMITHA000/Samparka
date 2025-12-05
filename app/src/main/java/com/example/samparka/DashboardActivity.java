@@ -1,8 +1,6 @@
 package com.example.samparka;
 
 import android.widget.Button;
-import android.view.View;
-
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -63,7 +61,6 @@ public class DashboardActivity extends AppCompatActivity {
         btnHelpChat.setOnClickListener(v ->
                 startActivity(new Intent(DashboardActivity.this, HelpAssistantActivity.class))
         );
-
     }
 
     @SuppressLint("SetTextI18n")

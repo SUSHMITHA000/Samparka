@@ -4,42 +4,44 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.View;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HelpAssistantActivity extends AppCompatActivity {
 
-    private LinearLayout chatContainer;
+    private RecyclerView chatRecyclerView;
     private EditText etMessage;
-
     private ImageButton btnSend;
+    private MessageAdapter messageAdapter;
+    private List<Message> messageList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_assistant);
 
-        chatContainer = findViewById(R.id.chatContainer);
+        chatRecyclerView = findViewById(R.id.chatRecyclerView);
         etMessage = findViewById(R.id.etMessage);
         btnSend = findViewById(R.id.btnSend);
 
+        messageList = new ArrayList<>();
+        messageAdapter = new MessageAdapter(messageList);
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        chatRecyclerView.setAdapter(messageAdapter);
+
         // Add welcome message
-        addBotMessage("Hello! How can I help you today?", "10:30 AM");
+        addBotMessage("Hello! How can I help you today?");
 
         btnSend.setOnClickListener(v -> {
             String text = etMessage.getText().toString().trim();
             if (!text.isEmpty()) {
-                addUserMessage(text, "10:31 AM");
+                addUserMessage(text);
                 etMessage.setText("");
-                // Demo: respond for known message (no translation)
-                if (text.equalsIgnoreCase("How do I report a complaint?")) {
-                    addBotMessage(
-                            "To report a complaint, tap the \"Report Issue\" button on the home screen. Then upload a photo, select the issue type, and provide a description. Your location will be automatically tagged.",
-                            "10:31 AM"
-                    );
-                }
+                respondToUserMessage(text);
             }
         });
 
@@ -48,34 +50,45 @@ public class HelpAssistantActivity extends AppCompatActivity {
         Button btnContact = findViewById(R.id.btnContact);
 
         btnReportIssue.setOnClickListener(v -> {
-            etMessage.setText("How do I report a complaint?");
-            etMessage.setSelection(etMessage.getText().length());
+            String question = "How do I report a complaint?";
+            addUserMessage(question);
+            respondToUserMessage(question);
         });
 
         btnTrackComplaint.setOnClickListener(v -> {
-            etMessage.setText("How can I track my complaint?");
-            etMessage.setSelection(etMessage.getText().length());
+            String question = "How can I track my complaint?";
+            addUserMessage(question);
+            respondToUserMessage(question);
         });
 
         btnContact.setOnClickListener(v -> {
-            etMessage.setText("Contact Panchayat");
-            etMessage.setSelection(etMessage.getText().length());
+            String question = "Contact Panchayat";
+            addUserMessage(question);
+            respondToUserMessage(question);
         });
     }
 
-    // Helper to add bot message
-    private void addBotMessage(String message, String time) {
-        View view = getLayoutInflater().inflate(R.layout.item_bot_message, chatContainer, false);
-        ((TextView) view.findViewById(R.id.txtMessage)).setText(message);
-        ((TextView) view.findViewById(R.id.txtTime)).setText(time);
-        chatContainer.addView(view);
+    private void respondToUserMessage(String message) {
+        if (message.equalsIgnoreCase("How do I report a complaint?")) {
+            addBotMessage("To report a complaint, tap the \"Report Issue\" button on the home screen. Then upload a photo, select the issue type, and provide a description. Your location will be automatically tagged.");
+        } else if (message.equalsIgnoreCase("How can I track my complaint?")) {
+            addBotMessage("You can track your complaint status in the 'My Reports' section of the app. It will show you if your complaint is 'In Progress' or 'Resolved'.");
+        } else if (message.equalsIgnoreCase("Contact Panchayat")) {
+            addBotMessage("You can contact the Panchayat office during working hours. The address is [Panchayat Address] and the phone number is [Panchayat Phone Number].");
+        } else {
+            addBotMessage("I'm sorry, I don't understand that question.");
+        }
     }
 
-    // Helper to add user message
-    private void addUserMessage(String message, String time) {
-        View view = getLayoutInflater().inflate(R.layout.item_user_message, chatContainer, false);
-        ((TextView) view.findViewById(R.id.txtMessage)).setText(message);
-        ((TextView) view.findViewById(R.id.txtTime)).setText(time);
-        chatContainer.addView(view);
+    private void addBotMessage(String message) {
+        messageList.add(new Message(message, false));
+        messageAdapter.notifyItemInserted(messageList.size() - 1);
+        chatRecyclerView.scrollToPosition(messageList.size() - 1);
+    }
+
+    private void addUserMessage(String message) {
+        messageList.add(new Message(message, true));
+        messageAdapter.notifyItemInserted(messageList.size() - 1);
+        chatRecyclerView.scrollToPosition(messageList.size() - 1);
     }
 }

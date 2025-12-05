@@ -1,0 +1,4 @@
+0 pothole
+1 street_light
+2 drainage
+
