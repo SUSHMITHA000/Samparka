@@ -29,6 +29,9 @@ android {
     aaptOptions {
         noCompress "tflite"
     }
+    buildFeatures {
+        mlModelBinding true
+    }
 }
 
 
@@ -64,7 +67,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:22.1.2'
 
     implementation "org.tensorflow:tensorflow-lite:2.14.0"
-    implementation "org.tensorflow:tensorflow-lite-support:0.4.3"
+    implementation "org.tensorflow:tensorflow-lite-support:0.4.4"
 
 }
 

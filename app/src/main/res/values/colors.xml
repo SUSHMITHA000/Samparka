@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="green_700">#0EA35D</color>
-    <color name="green_600">#13B66A</color>
-    <color name="green_800">#057A3E</color>
+    <color name="colorPrimary">#1D395B</color>
+    <color name="colorPrimaryDark">#152B45</color>
+    <color name="colorAccent">#4D648D</color>
+    <color name="textColorPrimary">#212121</color>
+    <color name="textColorSecondary">#757575</color>
+    <color name="windowBackground">#F5F5F5</color>
     <color name="white">#FFFFFF</color>
-    <color name="bg_gray">#F3F6F4</color>
     <color name="black">#000000</color>
-
-    <color name="gray_300">#616161</color>
-    <color name="gray_600">#616161</color>
-    <color name="red_700">#D32F2F</color>
-    <color name="gray_700">#757575</color>
-
-
-
-
-
 </resources>

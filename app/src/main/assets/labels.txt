@@ -1,4 +1,3 @@
-0 pothole
-1 street_light
-2 drainage
-
+drainage
+pothole
+street_light

@@ -5,7 +5,6 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class NotificationsActivity extends AppCompatActivity {
-    private ImageButton btnBackFromNotifications;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
