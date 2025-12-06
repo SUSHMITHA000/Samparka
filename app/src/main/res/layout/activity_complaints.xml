@@ -4,14 +4,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6F7FA">
+    android:background="@color/windowBackground">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="8dp"
-        android:background="#1AB151">
+        android:background="@color/colorPrimary">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             android:gravity="center_vertical"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:background="#1AB151">
+            android:background="@color/colorPrimary">
 
             <ImageView
                 android:id="@+id/imgFilterIcon"
@@ -80,8 +80,8 @@
             android:layout_weight="1"
             android:layout_height="36dp"
             android:text="All"
-            android:textColor="#111"
-            android:background="@drawable/tab_selected_bg"/>
+            android:textColor="@color/white"
+            android:background="@drawable/tab_selected_background"/>
 
         <Button
             android:id="@+id/btnPending"
@@ -89,8 +89,8 @@
             android:layout_weight="1"
             android:layout_height="36dp"
             android:text="Pending"
-            android:background="@drawable/tab_unselected_bg"
-            android:textColor="#686b73"/>
+            android:background="@drawable/tab_unselected_background"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:id="@+id/btnProgress"
@@ -98,8 +98,8 @@
             android:layout_weight="1"
             android:layout_height="36dp"
             android:text="Progress"
-            android:background="@drawable/tab_unselected_bg"
-            android:textColor="#686b73"/>
+            android:background="@drawable/tab_unselected_background"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:id="@+id/btnDone"
@@ -107,8 +107,8 @@
             android:layout_weight="1"
             android:layout_height="36dp"
             android:text="Done"
-            android:background="@drawable/tab_unselected_bg"
-            android:textColor="#686b73"/>
+            android:background="@drawable/tab_unselected_background"
+            android:textColor="#FFFFFF"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -117,6 +117,6 @@
         android:layout_height="match_parent"
         android:padding="8dp"
         android:clipToPadding="false"
-        android:background="#F6F7FA"
+        android:background="@color/windowBackground"
         android:overScrollMode="never"/>
 </LinearLayout>

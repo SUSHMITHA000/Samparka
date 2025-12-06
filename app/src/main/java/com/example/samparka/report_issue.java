@@ -1,4 +1,5 @@
 package com.example.samparka;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 import android.Manifest;
@@ -7,18 +8,19 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.*;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -58,6 +60,9 @@ public class report_issue extends AppCompatActivity {
     private static final int STORAGE_PERMISSION_CODE = 102;
     private static final int LOCATION_PERMISSION_CODE = 200;
 
+    private ImageClassifier imageClassifier;
+    private boolean isImageValid = false; // will be set by classifier
+
     // Cloudinary setup
     Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
             "cloud_name", "dvxnedfzr",
@@ -87,9 +92,17 @@ public class report_issue extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        // Init classifier
+        try {
+            imageClassifier = new ImageClassifier(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Model load failed", Toast.LENGTH_SHORT).show();
+        }
+
         // Dropdown data
         String[] issues = {
-                "Pot Hole",  "Street Light", "Drainage"
+                "Pot Hole", "Street Light", "Drainage"
         };
         spinnerIssueType.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, issues));
@@ -163,7 +176,6 @@ public class report_issue extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> tvLocation.setText("Unable to detect location."));
     }
-
 
     // ---------------- COORDINATES ⇒ ADDRESS ----------------
     @SuppressLint("SetTextI18n")
@@ -277,20 +289,61 @@ public class report_issue extends AppCompatActivity {
     private void showPreviewImage(Uri uri) {
         imagePreview.setVisibility(ImageView.VISIBLE);
 
-        // Load image without zooming
         Glide.with(this)
                 .load(uri)
                 .fitCenter()
                 .into(imagePreview);
 
-        // --- FULL SCREEN PREVIEW ON CLICK ---
         imagePreview.setOnClickListener(v -> {
             Intent intent = new Intent(report_issue.this, FullScreenImageActivity.class);
             intent.putExtra("imageUrl", uri.toString());
             startActivity(intent);
         });
-    }
 
+        // --- CLASSIFY IMAGE AND AUTO-SELECT SPINNER ---
+        isImageValid = false; // reset
+        Log.d("ML_DEBUG", "showPreviewImage called, uri=" + uri);
+
+        if (imageClassifier != null) {
+            try {
+                Log.d("ML_DEBUG", "about to classify");
+
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                ImageClassifier.Result result = imageClassifier.classify(bitmap);
+
+                float score = result.score;      // 0..1
+                String label = result.label;
+
+                Log.d("ML_DEBUG", "label=" + label + ", score=" + score);
+
+                // Threshold rule
+                if (score < 0.6f) {
+                    Toast.makeText(this,
+                            "Photo not recognized. Please upload a pothole / street light / drainage photo.",
+                            Toast.LENGTH_LONG).show();
+                    imageUri = null;            // clear current image
+                    imagePreview.setImageDrawable(null);
+                    spinnerIssueType.setSelection(0);
+                    isImageValid = false;
+                    return;
+                }
+
+                isImageValid = true;
+
+                String lower = label.toLowerCase();
+                if (lower.contains("pothole")) {
+                    spinnerIssueType.setSelection(0); // "Pot Hole"
+                } else if (lower.contains("street")) {
+                    spinnerIssueType.setSelection(1); // "Street Light"
+                } else if (lower.contains("drain")) {
+                    spinnerIssueType.setSelection(2); // "Drainage"
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     // ---------------- UPLOAD ISSUE ----------------
     private void uploadIssue() {
@@ -302,16 +355,25 @@ public class report_issue extends AppCompatActivity {
             return;
         }
 
+        // Require an image
+        if (imageUri == null) {
+            Toast.makeText(this,
+                    "Please upload a pothole / street light / drainage photo.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // Require classifier acceptance
+        if (!isImageValid) {
+            Toast.makeText(this,
+                    "Selected photo is not a valid issue. Upload correct photo.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
         ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Uploading...");
         dialog.show();
-
-        // No image → only save issue
-        if (imageUri == null) {
-            dialog.dismiss();
-            saveIssueToFirestore(type, desc, null);
-            return;
-        }
 
         // Upload to Cloudinary in background thread
         new Thread(() -> {

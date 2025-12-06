@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F9FAFB">
+    android:background="@color/windowBackground">
 
     <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#16A34A"
+        android:background="@color/colorPrimary"
         android:padding="16dp"
         android:gravity="center_vertical">
 
@@ -56,11 +56,11 @@
 
                 <ImageView
                     android:id="@+id/profilePhoto"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:src="@drawable/ic_profile"
                     android:scaleType="centerCrop"
-                    android:background="@drawable/circle_green"
+                    android:background="@drawable/circle_primary_color"
                     android:padding="32dp"
                     android:layout_gravity="center_horizontal"
                     tools:ignore="ContentDescription" />
@@ -70,8 +70,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Change Photo"
-                    android:textColor="#16A34A"
-                    android:background="@drawable/white_rounded_button"
+                    android:textColor="@color/colorPrimary"
+                    android:background="@android:color/transparent"
                     android:layout_marginTop="8dp"
                     tools:ignore="HardcodedText" />
             </LinearLayout>
@@ -81,11 +81,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@android:color/white"
+                android:background="@drawable/dashboard_card_background"
                 android:padding="16dp"
-                android:elevation="2dp"
                 android:layout_marginBottom="12dp"
-                android:backgroundTint="#FFFFFF"
                 android:layout_marginTop="16dp">
 
                 <!-- Section Title -->
@@ -94,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="Personal Information"
-                    android:textColor="#000000"
+                    android:textColor="@color/textColorPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
@@ -104,9 +102,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Full Name"
-                    android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="#111827"
+                    android:textColor="@color/textColorSecondary"
                     android:layout_marginBottom="4dp"
                     tools:ignore="HardcodedText" />
 
@@ -114,11 +111,11 @@
                     android:id="@+id/fullNameEdit"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:background="@drawable/edittext_background"
+                    android:background="@drawable/edit_text_background_pastel"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:text=""
-                    android:textColor="#000000"
+                    android:textColor="@color/textColorPrimary"
                     android:textSize="14sp"
                     android:inputType="textPersonName"
                     android:drawableStart="@drawable/ic_person"
@@ -130,20 +127,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email"
-                    android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="#111827"
+                    android:textColor="@color/textColorSecondary"
                     android:layout_marginBottom="4dp" />
 
                 <EditText
                     android:id="@+id/emailEdit"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:background="@drawable/edittext_background"
+                    android:background="@drawable/edit_text_background_pastel"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:text=""
-                    android:textColor="#000000"
+                    android:textColor="@color/textColorPrimary"
                     android:textSize="14sp"
                     android:inputType="textEmailAddress"
                     android:drawableStart="@drawable/ic_mail"
@@ -155,20 +151,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Phone Number"
-                    android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="#111827"
+                    android:textColor="@color/textColorSecondary"
                     android:layout_marginBottom="4dp" />
 
                 <EditText
                     android:id="@+id/phoneEdit"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:background="@drawable/edittext_background"
+                    android:background="@drawable/edit_text_background_pastel"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:text=""
-                    android:textColor="#000000"
+                    android:textColor="@color/textColorPrimary"
                     android:textSize="14sp"
                     android:inputType="phone"
                     android:drawableStart="@drawable/ic_phone"
@@ -180,20 +175,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="PIN Code"
-                    android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="#111827"
+                    android:textColor="@color/textColorSecondary"
                     android:layout_marginBottom="4dp" />
 
                 <EditText
                     android:id="@+id/pinEdit"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:background="@drawable/edittext_background"
+                    android:background="@drawable/edit_text_background_pastel"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:text=""
-                    android:textColor="#000000"
+                    android:textColor="@color/textColorPrimary"
                     android:textSize="14sp"
                     android:inputType="number"
                     android:hint="Enter 6-digit PIN"
@@ -205,9 +199,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="City / Locality"
-                    android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="#111827"
+                    android:textColor="@color/textColorSecondary"
                     android:layout_marginBottom="4dp"
                     tools:ignore="HardcodedText" />
 
@@ -215,11 +208,11 @@
                     android:id="@+id/cityEdit"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:background="@drawable/edittext_background"
+                    android:background="@drawable/edit_text_background_pastel"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:text=""
-                    android:textColor="#000000"
+                    android:textColor="@color/textColorPrimary"
                     android:textSize="14sp"
                     android:inputType="text"
                     android:layout_marginBottom="12dp" />
@@ -229,9 +222,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="State"
-                    android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="#111827"
+                    android:textColor="@color/textColorSecondary"
                     android:layout_marginBottom="4dp"
                     tools:ignore="HardcodedText" />
 
@@ -239,11 +231,11 @@
                     android:id="@+id/stateEdit"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:background="@drawable/edittext_background"
+                    android:background="@drawable/edit_text_background_pastel"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:text=""
-                    android:textColor="#000000"
+                    android:textColor="@color/textColorPrimary"
                     android:textSize="14sp"
                     android:inputType="text"
                     android:layout_marginBottom="12dp" />
@@ -253,9 +245,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Address"
-                    android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="#111827"
+                    android:textColor="@color/textColorSecondary"
                     android:layout_marginBottom="4dp"
                     tools:ignore="HardcodedText" />
 
@@ -263,11 +254,11 @@
                     android:id="@+id/locationEdit"
                     android:layout_width="match_parent"
                     android:layout_height="96dp"
-                    android:background="@drawable/edittext_background"
+                    android:background="@drawable/edit_text_background_pastel"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:text=" "
-                    android:textColor="#000000"
+                    android:textColor="@color/textColorPrimary"
                     android:textSize="14sp"
                     android:inputType="textMultiLine"
                     android:gravity="top"
@@ -281,17 +272,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_card"
+                android:background="@drawable/dashboard_card_background"
                 android:padding="16dp"
-                android:layout_margin="16dp"
-                android:elevation="4dp">
+                android:layout_margin="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="App Settings"
                     android:textStyle="bold"
-                    android:textColor="#000000"
+                    android:textColor="@color/textColorPrimary"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp"
                     tools:ignore="HardcodedText" />
@@ -300,7 +290,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Language"
-                    android:textColor="#000000"
+                    android:textColor="@color/textColorSecondary"
                     android:textSize="14sp"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
@@ -310,7 +300,7 @@
                     android:id="@+id/language_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:background="@drawable/edittext_background"
+                    android:background="@drawable/edit_text_background_pastel"
                     android:entries="@array/languages"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
@@ -322,8 +312,8 @@
             <Button
                 android:id="@+id/saveButton"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:backgroundTint="#16A34A"
+                android:layout_height="56dp"
+                android:background="@drawable/button_primary_background"
                 android:text="Save Changes"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
@@ -333,22 +323,20 @@
             <Button
                 android:id="@+id/helpButton"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:backgroundTint="#E5E7EB"
-                android:text="Help  Feedback"
-                android:textColor="#000000"
-                android:textStyle="bold"
+                android:layout_height="56dp"
+                android:background="@drawable/dashboard_card_background"
+                android:text="Help &amp; Feedback"
+                android:textColor="@color/textColorPrimary"
                 android:layout_marginBottom="12dp"
                 tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/logoutButton"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:backgroundTint="#FFEFF0"
+                android:layout_height="56dp"
+                android:background="@drawable/button_logout_background"
                 android:text="Logout"
-                android:textColor="#E53935"
-                android:textStyle="bold"
+                android:textColor="#C62828"
                 android:layout_marginBottom="24dp"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
