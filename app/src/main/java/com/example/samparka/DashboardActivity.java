@@ -3,6 +3,7 @@ package com.example.samparka;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,10 +16,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    ImageView profileIcon, userProfileSmall;
-    TextView userNameSmall, greetingText;
+    ImageView profileIcon;
+    TextView greetingText;
 
-    LinearLayout profileSection, reportIssueSection;
+    LinearLayout reportIssueSection;
+
+    Button btnMyReports, btnHelpChat;
 
     FirebaseAuth auth;
     FirebaseFirestore db;
@@ -33,12 +36,12 @@ public class DashboardActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         profileIcon = findViewById(R.id.profileIcon);
-        userProfileSmall = findViewById(R.id.userProfileSmall);
-        userNameSmall = findViewById(R.id.userNameSmall);
         greetingText = findViewById(R.id.greetingText);
 
         reportIssueSection = findViewById(R.id.reportIssueSection);
-        profileSection = findViewById(R.id.profileSection);
+
+        btnMyReports = findViewById(R.id.btnMyReports);
+        btnHelpChat = findViewById(R.id.btnHelpChat);
 
         loadUserProfile(auth.getUid());
 
@@ -46,12 +49,16 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(new Intent(DashboardActivity.this, ProfileActivity.class))
         );
 
-        profileSection.setOnClickListener(v ->
-                startActivity(new Intent(DashboardActivity.this, ProfileActivity.class))
-        );
-
         reportIssueSection.setOnClickListener(v ->
                 startActivity(new Intent(DashboardActivity.this, report_issue.class))
+        );
+
+        btnMyReports.setOnClickListener(v ->
+                startActivity(new Intent(DashboardActivity.this, ComplaintsActivity.class))
+        );
+
+        btnHelpChat.setOnClickListener(v ->
+                startActivity(new Intent(DashboardActivity.this, HelpAssistantActivity.class))
         );
     }
 
@@ -68,7 +75,6 @@ public class DashboardActivity extends AppCompatActivity {
                         String photoUrl = doc.getString("photoUrl");
 
                         if (name != null && !name.isEmpty()) {
-                            userNameSmall.setText(name);
                             greetingText.setText("Hi " + name + " 👋");
                         } else {
                             greetingText.setText("Hi User 👋");
@@ -76,10 +82,8 @@ public class DashboardActivity extends AppCompatActivity {
 
                         if (photoUrl != null && !photoUrl.isEmpty()) {
                             Glide.with(this).load(photoUrl).circleCrop().into(profileIcon);
-                            Glide.with(this).load(photoUrl).circleCrop().into(userProfileSmall);
                         } else {
                             profileIcon.setImageResource(R.drawable.ic_profile);
-                            userProfileSmall.setImageResource(R.drawable.ic_profile);
                         }
                     }
                 });

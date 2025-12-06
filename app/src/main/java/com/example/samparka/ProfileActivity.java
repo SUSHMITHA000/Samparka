@@ -39,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private EditText fullNameEdit, phoneEdit, pinEdit, cityEdit, stateEdit, locationEdit;
     private ImageView profilePhoto, backButton;
-    private Button saveButton, changePhotoButton;
+    private Button saveButton, changePhotoButton, logoutButton;
 
     FirebaseAuth auth;
     FirebaseFirestore db;
@@ -75,6 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
         changePhotoButton = findViewById(R.id.changePhotoButton);
         saveButton = findViewById(R.id.saveButton);
         backButton = findViewById(R.id.backButton);
+        logoutButton = findViewById(R.id.logoutButton);
 
         loadUserData(auth.getUid());
 
@@ -89,6 +90,14 @@ public class ProfileActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> finish());
 
         changePhotoButton.setOnClickListener(v -> pickImage());
+
+        logoutButton.setOnClickListener(v -> {
+            auth.signOut();
+            Intent intent = new Intent(ProfileActivity.this, Login_Page.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
     }
 
     // LOAD DATA FROM FIRESTORE

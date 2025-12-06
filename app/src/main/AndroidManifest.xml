@@ -82,6 +82,10 @@
 <!--        <activity android:name=".ProfileActivity"  android:exported="false"/>-->
         <activity android:name=".FullScreenImageActivity" />
 
+        <!-- AndroidManifest.xml (inside <application>...) -->
+        <activity android:name=".ComplaintDetailsActivity" />
+
+
 
     </application>
 
