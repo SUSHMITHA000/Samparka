@@ -368,10 +368,16 @@ public class report_issue extends AppCompatActivity {
         db.collection("issues")
                 .add(issue)
                 .addOnSuccessListener(doc -> {
+
                     Toast.makeText(this, "Issue Submitted!", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(report_issue.this, ComplaintsActivity.class);
+                    startActivity(intent);
+                    finish();  // optional, so user cannot come back to form
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
     }
 
 
