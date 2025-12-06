@@ -8,14 +8,12 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.*;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -60,8 +58,9 @@ public class report_issue extends AppCompatActivity {
     private static final int STORAGE_PERMISSION_CODE = 102;
     private static final int LOCATION_PERMISSION_CODE = 200;
 
-    private ImageClassifier imageClassifier;
-    private boolean isImageValid = false; // will be set by classifier
+    // 🔥 ML-related fields REMOVED
+    // private ImageClassifier imageClassifier;
+    // private boolean isImageValid = false;
 
     // Cloudinary setup
     Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
@@ -92,13 +91,15 @@ public class report_issue extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        // Init classifier
+        // 🔥 ML model init REMOVED
+        /*
         try {
             imageClassifier = new ImageClassifier(this);
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Model load failed", Toast.LENGTH_SHORT).show();
         }
+        */
 
         // Dropdown data
         String[] issues = {
@@ -287,6 +288,8 @@ public class report_issue extends AppCompatActivity {
 
     // ---------------- Show image in preview box ----------------
     private void showPreviewImage(Uri uri) {
+        if (uri == null) return;
+
         imagePreview.setVisibility(ImageView.VISIBLE);
 
         Glide.with(this)
@@ -300,49 +303,7 @@ public class report_issue extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // --- CLASSIFY IMAGE AND AUTO-SELECT SPINNER ---
-        isImageValid = false; // reset
-        Log.d("ML_DEBUG", "showPreviewImage called, uri=" + uri);
-
-        if (imageClassifier != null) {
-            try {
-                Log.d("ML_DEBUG", "about to classify");
-
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                ImageClassifier.Result result = imageClassifier.classify(bitmap);
-
-                float score = result.score;      // 0..1
-                String label = result.label;
-
-                Log.d("ML_DEBUG", "label=" + label + ", score=" + score);
-
-                // Threshold rule
-                if (score < 0.6f) {
-                    Toast.makeText(this,
-                            "Photo not recognized. Please upload a pothole / street light / drainage photo.",
-                            Toast.LENGTH_LONG).show();
-                    imageUri = null;            // clear current image
-                    imagePreview.setImageDrawable(null);
-                    spinnerIssueType.setSelection(0);
-                    isImageValid = false;
-                    return;
-                }
-
-                isImageValid = true;
-
-                String lower = label.toLowerCase();
-                if (lower.contains("pothole")) {
-                    spinnerIssueType.setSelection(0); // "Pot Hole"
-                } else if (lower.contains("street")) {
-                    spinnerIssueType.setSelection(1); // "Street Light"
-                } else if (lower.contains("drain")) {
-                    spinnerIssueType.setSelection(2); // "Drainage"
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        // 🔥 NO CLASSIFICATION, NO REJECTION HERE ANYMORE
     }
 
     // ---------------- UPLOAD ISSUE ----------------
@@ -355,21 +316,15 @@ public class report_issue extends AppCompatActivity {
             return;
         }
 
-        // Require an image
+        // Just require that an image exists at all
         if (imageUri == null) {
             Toast.makeText(this,
-                    "Please upload a pothole / street light / drainage photo.",
+                    "Please upload a photo.",
                     Toast.LENGTH_LONG).show();
             return;
         }
 
-        // Require classifier acceptance
-        if (!isImageValid) {
-            Toast.makeText(this,
-                    "Selected photo is not a valid issue. Upload correct photo.",
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
+        // 🔥 NO isImageValid CHECK ANYMORE
 
         ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Uploading...");
