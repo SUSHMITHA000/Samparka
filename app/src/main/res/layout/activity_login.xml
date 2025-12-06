@@ -18,7 +18,8 @@
         <ImageView
             android:layout_width="96dp"
             android:layout_height="96dp"
-            android:src="@drawable/ic_leaf_logo"
+            android:src="@drawable/samparka_round_no_bg"
+
             android:layout_marginTop="48dp"
             android:layout_marginBottom="16dp"
             app:tint="@color/colorPrimary" />
