@@ -20,7 +20,16 @@
     <string name="email_icon_desc">Email icon</string>
     <string name="password_icon_desc">Password icon</string>
 
-
+    <string name="greeting">Hi User</string>
+    <string name="report_new_issue">+ Report New Issue</string>
+    <string name="total_reports">0\nTotal Reports</string>
+    <string name="in_progress_reports">0\nIn Progress</string>
+    <string name="resolved_reports">0\nResolved</string>
+    <string name="my_reports">My Reports</string>
+    <string name="help_chat">Help Chat</string>
+    <string name="community_update_text">Community Update\nNew Panchayat meeting announcement soon</string>
+    <string name="notification_icon_description">Notification icon</string>
+    <string name="profile_icon_description">Profile icon</string>
 
     <string-array name="languages">
         <item>English</item>

@@ -10,9 +10,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
 import com.bumptech.glide.Glide;
+import com.example.samparka.Complaint;
+import com.example.samparka.ComplaintDetailsActivity;
 
+import java.util.List;
 
 public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.ViewHolder> {
 

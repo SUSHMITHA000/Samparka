@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.example.samparka'
-    compileSdk 36  // <-- updated here
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.example.samparka"
@@ -40,7 +40,6 @@ dependencies {
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
-    implementation libs.firebase.storage
     implementation libs.cardview
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
@@ -65,7 +64,6 @@ dependencies {
 
 
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
-    implementation 'com.google.firebase:firebase-auth:22.1.2'
 
     implementation "org.tensorflow:tensorflow-lite:2.14.0"
     implementation "org.tensorflow:tensorflow-lite-support:0.4.4"
