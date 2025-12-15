@@ -3,14 +3,11 @@
     android:height="48dp"
     android:viewportWidth="48"
     android:viewportHeight="48">
-    <!-- Green circle background -->
-    <path
-        android:fillColor="#16B451"
-        android:pathData="M24,4
-        a20,20 0 1,0 0,40
-        a20,20 0 1,0 0,-40" />
-        <!-- White person silhouette -->
+
+    <!-- REMOVE GREEN CIRCLE (no background here) -->
+
+    <!-- White person silhouette only -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M24,14a5,5 0 1,1 0,10a5,5 0 1,1 0,-10zm0,12c-5,0-12,2.5-12,7.5V36h24v-2.5c0-5-7-7.5-12-7.5z"/>
+        android:pathData="M24,14a5,5 0 1,1 0,10a5,5 0 1,1 0,-10zm0,12c-5,0-12,2.5-12,7.5V36h24v-2.5c0-5-7-7.5-12-7.5z" />
 </vector>

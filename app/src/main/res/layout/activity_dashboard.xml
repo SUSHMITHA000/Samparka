@@ -34,21 +34,15 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/ic_notifications"
-<<<<<<< HEAD
-                android:padding="4dp"
-                android:tint="#FFFFFF"
-                tools:ignore="UseAppTint" />
-S
+                android:padding="4dp" />
+
+
             <Space
                 android:layout_width="8dp"
                 android:layout_height="match_parent" />
 
             <!-- Main Profile Icon (top right) -->
-=======
-                android:layout_marginEnd="16dp"
-                android:tint="@color/textColorSecondary" />
 
->>>>>>> c782c726bef0a251f14476abeaeac11072414916
             <ImageView
                 android:id="@+id/profileIcon"
                 android:layout_width="40dp"
