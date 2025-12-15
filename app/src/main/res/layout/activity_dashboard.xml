@@ -16,16 +16,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="16dp">
 
             <TextView
                 android:id="@+id/greetingText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/greeting"
+                android:text="Hi User"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="24sp" />
 
@@ -33,27 +33,25 @@
                 android:id="@+id/notificationIcon"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:padding="4dp"
                 android:src="@drawable/ic_notifications"
-                android:tint="#FFFFFF"
-                android:contentDescription="@string/notification_icon_description"
-                tools:ignore="UseAppTint" />
+                android:padding="4dp" />
+
 
             <Space
                 android:layout_width="8dp"
                 android:layout_height="match_parent" />
 
             <!-- Main Profile Icon (top right) -->
+
             <ImageView
                 android:id="@+id/profileIcon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:src="@drawable/ic_profile"
                 android:background="@drawable/circle_primary_color"
-                android:clickable="true"
-                android:focusable="true"
                 android:padding="5dp"
-                android:contentDescription="@string/profile_icon_description"
-                android:src="@drawable/ic_profile" />
+                android:clickable="true"
+                android:focusable="true" />
 
         </LinearLayout>
 
@@ -62,27 +60,27 @@
             android:id="@+id/reportIssueSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:padding="24dp"
             android:background="@drawable/button_primary_background"
-            android:gravity="center"
-            android:padding="24dp">
+            android:layout_marginBottom="16dp"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/report_new_issue"
+                android:text="+ Report New Issue"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
-
+        
         <!-- Stats Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:id="@+id/totalReports"
@@ -90,25 +88,25 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:background="@drawable/dashboard_card_background"
+                android:text="0\nTotal Reports"
                 android:gravity="center"
-                android:padding="8dp"
-                android:text="@string/total_reports"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:padding="8dp" />
 
             <TextView
                 android:id="@+id/inProgressReports"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/dashboard_card_background"
+                android:text="0\nIn Progress"
                 android:gravity="center"
-                android:padding="8dp"
-                android:text="@string/in_progress_reports"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:padding="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
 
             <TextView
                 android:id="@+id/resolvedReports"
@@ -116,18 +114,17 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:background="@drawable/dashboard_card_background"
+                android:text="0\nResolved"
                 android:gravity="center"
-                android:padding="8dp"
-                android:text="@string/resolved_reports"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:padding="8dp" />
 
         </LinearLayout>
 
 
         <!-- My Reports + Help Chat -->
         <LinearLayout
-            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -135,29 +132,27 @@
 
             <Button
                 android:id="@+id/btnMyReports"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_primary_background"
-                android:text="@string/my_reports"
+                android:text="My Reports"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@drawable/button_primary_background"
+                android:layout_marginEnd="8dp" />
 
             <Button
                 android:id="@+id/btnHelpChat"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_primary_background"
-                android:text="@string/help_chat"
+                android:text="Help Chat"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@drawable/button_primary_background"
+                android:layout_marginStart="8dp" />
         </LinearLayout>
 
         <!-- Community Update -->
@@ -165,12 +160,12 @@
             android:id="@+id/communityUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:text="Community Update\nNew Panchayat meeting announcement soon"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
             android:background="@drawable/dashboard_card_background"
             android:padding="16dp"
-            android:text="@string/community_update_text"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="16sp"
+            android:layout_marginTop="16dp"
             tools:ignore="HardcodedText" />
 
     </LinearLayout>
