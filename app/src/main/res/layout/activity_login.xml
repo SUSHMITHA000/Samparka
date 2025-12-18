@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/windowBackground"
     android:padding="24dp"
-    tools:context=".Login_Page">
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,36 +18,27 @@
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:src="@drawable/samparka_round_no_bg"
-
             android:layout_marginTop="48dp"
             android:layout_marginBottom="16dp"
             app:tint="@color/colorPrimary" />
 
-        <!-- Title -->
+        <!-- App Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/welcome"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="28sp" />
+            android:text="Samparka"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginBottom="24dp" />
 
-        <!-- Subtitle -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_subtitle"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="16sp"
-            android:layout_marginBottom="32dp" />
-
-        <!-- Name Input -->
+        <!-- Full Name -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
             android:background="@drawable/edit_text_background_pastel"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:paddingHorizontal="16dp"
             android:gravity="center_vertical"
             android:layout_marginBottom="16dp">
 
@@ -56,106 +46,100 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_person"
-                app:tint="@color/textColorSecondary" 
-                android:layout_marginEnd="12dp" />
+                android:layout_marginEnd="12dp"
+                app:tint="@color/textColorSecondary" />
 
             <EditText
                 android:id="@+id/nameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Enter your name"
-                android:textColor="@color/textColorPrimary"
+                android:hint="Full Name"
+                android:inputType="textPersonName"
                 android:textSize="16sp"
+                android:textColor="@color/textColorPrimary"
                 android:background="@android:color/transparent" />
         </LinearLayout>
 
-        <!-- Email Input -->
+        <!-- Phone Number -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
             android:background="@drawable/edit_text_background_pastel"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:paddingHorizontal="16dp"
             android:gravity="center_vertical"
             android:layout_marginBottom="16dp">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_mail"
+                android:src="@drawable/ic_phone"
                 android:layout_marginEnd="12dp"
-                app:tint="@color/textColorSecondary" />
+                app:tint="@color/textColorSecondary"/>
 
             <EditText
-                android:id="@+id/emailEditText"
+                android:id="@+id/phoneEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/email_hint"
-                android:inputType="textEmailAddress"
+                android:hint="Enter phone number"
+                android:inputType="phone"
+                android:maxLength="10"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="16sp"
-                android:background="@android:color/transparent"
-                android:autofillHints="emailAddress" />
+                android:background="@android:color/transparent"/>
         </LinearLayout>
 
-        <!-- Password Input -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="@drawable/edit_text_background_pastel"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="24dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_lock_idle_lock"
-                android:layout_marginEnd="12dp"
-                app:tint="@color/textColorSecondary" />
-
-            <EditText
-                android:id="@+id/passwordEditText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="@string/password_hint"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp"
-                android:inputType="textPassword"
-                android:background="@android:color/transparent"
-                android:autofillHints="password" />
-        </LinearLayout>
-
-        <!-- LOGIN BUTTON -->
+        <!-- Send OTP -->
         <Button
-            android:id="@+id/loginButton"
+            android:id="@+id/btnSendOtp"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="@string/login"
+            android:text="Send OTP"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:background="@drawable/button_primary_background"
-            android:layout_marginTop="8dp" />
+            android:layout_marginBottom="16dp" />
 
+        <!-- OTP -->
+        <EditText
+            android:id="@+id/otpEditText"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Enter OTP"
+            android:inputType="number"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
+            android:background="@drawable/edit_text_background_pastel"
+            android:paddingHorizontal="16dp"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Verify OTP -->
+        <Button
+            android:id="@+id/btnVerifyOtp"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Verify OTP"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_primary_background"
+            android:visibility="gone"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Divider -->
         <TextView
-            android:id="@+id/forgotPasswordText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Forgot Password?"
-            android:textColor="@color/colorPrimary"
-            android:textSize="14sp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="24dp"
-            android:padding="4dp"/>
+            android:text="OR"
+            android:textStyle="bold"
+            android:textColor="@color/textColorSecondary"
+            android:layout_marginBottom="16dp" />
 
-        <!-- GOOGLE SIGN-IN -->
+        <!-- Google Sign-In -->
         <com.google.android.gms.common.SignInButton
             android:id="@+id/googleSignInButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 </ScrollView>

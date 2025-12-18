@@ -42,7 +42,20 @@ public class DashboardActivity extends AppCompatActivity {
         btnEvents = findViewById(R.id.btnEvents);
         communityUpdateSection = findViewById(R.id.communityUpdateSection);
 
-        loadUserProfile(auth.getUid());
+        String userDocId = getIntent().getStringExtra("USER_DOC_ID");
+        String passedName = getIntent().getStringExtra("USER_NAME");
+
+// 🔥 Show name instantly
+        if (passedName != null && !passedName.isEmpty()) {
+            greetingText.setText("Hi " + passedName + " 👋");
+        } else {
+            greetingText.setText("Hi User 👋");
+        }
+
+// Background Firestore fetch
+        loadUserProfile(userDocId);
+
+
 
         profileIcon.setOnClickListener(v ->
                 startActivity(new Intent(DashboardActivity.this, ProfileActivity.class))
