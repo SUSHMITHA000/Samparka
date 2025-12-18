@@ -3,10 +3,10 @@ package com.example.samparka;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,9 +19,7 @@ public class DashboardActivity extends AppCompatActivity {
     ImageView profileIcon;
     TextView greetingText;
 
-    LinearLayout reportIssueSection;
-
-    Button btnMyReports, btnHelpChat;
+    LinearLayout reportIssueSection, btnMyReports, btnHelpChat, btnEvents, communityUpdateSection;
 
     FirebaseAuth auth;
     FirebaseFirestore db;
@@ -39,9 +37,10 @@ public class DashboardActivity extends AppCompatActivity {
         greetingText = findViewById(R.id.greetingText);
 
         reportIssueSection = findViewById(R.id.reportIssueSection);
-
         btnMyReports = findViewById(R.id.btnMyReports);
         btnHelpChat = findViewById(R.id.btnHelpChat);
+        btnEvents = findViewById(R.id.btnEvents);
+        communityUpdateSection = findViewById(R.id.communityUpdateSection);
 
         loadUserProfile(auth.getUid());
 
@@ -59,6 +58,14 @@ public class DashboardActivity extends AppCompatActivity {
 
         btnHelpChat.setOnClickListener(v ->
                 startActivity(new Intent(DashboardActivity.this, HelpAssistantActivity.class))
+        );
+
+        btnEvents.setOnClickListener(v ->
+                Toast.makeText(this, "Upcoming Events coming soon!", Toast.LENGTH_SHORT).show()
+        );
+
+        communityUpdateSection.setOnClickListener(v ->
+                startActivity(new Intent(DashboardActivity.this, NotificationsActivity.class))
         );
     }
 

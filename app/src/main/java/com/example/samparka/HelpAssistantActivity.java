@@ -41,10 +41,6 @@ public class HelpAssistantActivity extends AppCompatActivity {
         chatRecyclerView = findViewById(R.id.chatRecyclerView);
         etMessage = findViewById(R.id.etMessage);
         btnSend = findViewById(R.id.btnSend);
-
-        Button btnReportIssue = findViewById(R.id.btnReportIssue);
-        Button btnTrackComplaint = findViewById(R.id.btnTrackComplaint);
-        Button btnContact = findViewById(R.id.btnContact);
     }
 
     private void setupRecyclerView() {
@@ -70,6 +66,8 @@ public class HelpAssistantActivity extends AppCompatActivity {
 
         findViewById(R.id.btnContact).setOnClickListener(v ->
                 sendPredefinedMessage("Contact Panchayat"));
+        
+        findViewById(R.id.backButton).setOnClickListener(v -> finish());
     }
 
     private void sendMessage() {
@@ -106,7 +104,7 @@ public class HelpAssistantActivity extends AppCompatActivity {
                 }
 
                 int responseCode = conn.getResponseCode();
-                String reply;
+                String reply = "";
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     try (BufferedReader rd = new BufferedReader(
@@ -114,11 +112,7 @@ public class HelpAssistantActivity extends AppCompatActivity {
                         reply = rd.readLine();
                     }
                 } else {
-                    try (BufferedReader rd = new BufferedReader(
-                            new InputStreamReader(conn.getErrorStream()))) {
-                        reply = "Server error: " + responseCode + " - " + rd.readLine();
-                    }
-                    reply = "Backend unavailable";
+                    reply = "{\"reply\": \"Server error: " + responseCode + "\"}";
                 }
 
                 JSONObject responseJson = new JSONObject(reply);
@@ -142,8 +136,10 @@ public class HelpAssistantActivity extends AppCompatActivity {
     }
 
     private void addUserMessage(String message) {
-        messageList.add(new Message(message, true));
-        messageAdapter.notifyItemInserted(messageList.size() - 1);
-        chatRecyclerView.scrollToPosition(messageList.size() - 1);
+        runOnUiThread(() -> {
+            messageList.add(new Message(message, true));
+            messageAdapter.notifyItemInserted(messageList.size() - 1);
+            chatRecyclerView.scrollToPosition(messageList.size() - 1);
+        });
     }
 }
