@@ -20,25 +20,18 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthOptions;
-import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class Login_Page extends AppCompatActivity {
 
-    // Phone OTP
+    // Phone OTP (DEMO MODE)
     private EditText phoneEditText, otpEditText;
     private Button sendOtpButton, verifyOtpButton;
-    private String verificationId;
-    private PhoneAuthProvider.ForceResendingToken resendToken;
 
     // Google Sign-In
     private SignInButton googleSignInButton;
@@ -47,6 +40,9 @@ public class Login_Page extends AppCompatActivity {
     // Firebase
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
+
+    // To store entered phone
+    private String enteredPhone = "";
 
     // Google Sign-in launcher
     private final ActivityResultLauncher<Intent> googleSignInLauncher =
@@ -72,17 +68,14 @@ public class Login_Page extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Firebase
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // Phone OTP views
+        // Views
         phoneEditText = findViewById(R.id.phoneEditText);
         otpEditText = findViewById(R.id.otpEditText);
         sendOtpButton = findViewById(R.id.btnSendOtp);
         verifyOtpButton = findViewById(R.id.btnVerifyOtp);
-
-        // Google
         googleSignInButton = findViewById(R.id.googleSignInButton);
 
         // Google Sign-In setup
@@ -94,94 +87,52 @@ public class Login_Page extends AppCompatActivity {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        googleSignInButton.setOnClickListener(v -> {
-            Intent signInIntent = googleSignInClient.getSignInIntent();
-            googleSignInLauncher.launch(signInIntent);
-        });
+        googleSignInButton.setOnClickListener(v ->
+                googleSignInLauncher.launch(googleSignInClient.getSignInIntent())
+        );
 
-        // Send OTP
+        // SEND OTP (DEMO)
         sendOtpButton.setOnClickListener(v -> {
-            String phone = phoneEditText.getText().toString().trim();
+            enteredPhone = phoneEditText.getText().toString().trim();
 
-            if (phone.isEmpty() || phone.length() < 10) {
+            if (enteredPhone.isEmpty() || enteredPhone.length() < 10) {
                 Toast.makeText(this,
                         "Enter valid phone number",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            sendOtp("+91" + phone);
+            Toast.makeText(this,
+                    "OTP Sent (Demo Mode)",
+                    Toast.LENGTH_SHORT).show();
+
+            otpEditText.setVisibility(View.VISIBLE);
+            verifyOtpButton.setVisibility(View.VISIBLE);
         });
 
-        // Verify OTP
+        // VERIFY OTP (DEMO)
+
         verifyOtpButton.setOnClickListener(v -> {
             String otp = otpEditText.getText().toString().trim();
 
             if (otp.isEmpty()) {
-                Toast.makeText(this,
-                        "Enter OTP",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Enter OTP", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            PhoneAuthCredential credential =
-                    PhoneAuthProvider.getCredential(verificationId, otp);
+            String userDocId = "demo_" + enteredPhone;
 
-            signInWithPhoneAuthCredential(credential);
+            String name = "User";
+            EditText nameEditText = findViewById(R.id.nameEditText);
+            if (nameEditText != null && !nameEditText.getText().toString().trim().isEmpty()) {
+                name = nameEditText.getText().toString().trim();
+            }
+
+            savePhoneUser(enteredPhone);
+            goToDashboard(userDocId, name);
+
         });
-    }
 
-    // ---------------- PHONE OTP ----------------
-    private void sendOtp(String phoneNumber) {
-        PhoneAuthOptions options =
-                PhoneAuthOptions.newBuilder(firebaseAuth)
-                        .setPhoneNumber(phoneNumber)
-                        .setTimeout(60L, TimeUnit.SECONDS)
-                        .setActivity(this)
-                        .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
-                            @Override
-                            public void onVerificationCompleted(PhoneAuthCredential credential) {
-                                signInWithPhoneAuthCredential(credential);
-                            }
-
-                            @Override
-                            public void onVerificationFailed(FirebaseException e) {
-                                Toast.makeText(Login_Page.this,
-                                        "OTP Failed: " + e.getMessage(),
-                                        Toast.LENGTH_LONG).show();
-                            }
-
-                            @Override
-                            public void onCodeSent(String vid,
-                                                   PhoneAuthProvider.ForceResendingToken token) {
-                                verificationId = vid;
-                                resendToken = token;
-
-                                Toast.makeText(Login_Page.this,
-                                        "OTP Sent",
-                                        Toast.LENGTH_SHORT).show();
-
-                                // ✅ SHOW OTP INPUT & VERIFY BUTTON
-                                otpEditText.setVisibility(View.VISIBLE);
-                                verifyOtpButton.setVisibility(View.VISIBLE);
-                            }
-                        })
-                        .build();
-
-        PhoneAuthProvider.verifyPhoneNumber(options);
-    }
-
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        firebaseAuth.signInWithCredential(credential)
-                .addOnSuccessListener(authResult -> {
-                    savePhoneUser();
-                    goToDashboard();
-                })
-                .addOnFailureListener(e ->
-                        Toast.makeText(this,
-                                "OTP Verification Failed",
-                                Toast.LENGTH_SHORT).show());
     }
 
     // ---------------- GOOGLE LOGIN ----------------
@@ -189,8 +140,12 @@ public class Login_Page extends AppCompatActivity {
         firebaseAuth.signInWithCredential(
                         GoogleAuthProvider.getCredential(idToken, null))
                 .addOnSuccessListener(authResult -> {
+                    GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
+                    String name = acc != null ? acc.getDisplayName() : "User";
+
                     saveGoogleUser();
-                    goToDashboard();
+                    goToDashboard(firebaseAuth.getUid(), name);
+
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this,
@@ -199,11 +154,19 @@ public class Login_Page extends AppCompatActivity {
     }
 
     // ---------------- SAVE USERS ----------------
-    private void savePhoneUser() {
-        String uid = firebaseAuth.getUid();
+    private void savePhoneUser(String phone) {
+        String uid = "demo_" + phone;
+
+        String name = "User";
+        EditText nameEditText = findViewById(R.id.nameEditText);
+        if (nameEditText != null && !nameEditText.getText().toString().trim().isEmpty()) {
+            name = nameEditText.getText().toString().trim();
+        }
 
         Map<String, Object> userData = new HashMap<>();
-        userData.put("phone", firebaseAuth.getCurrentUser().getPhoneNumber());
+        userData.put("name", name);
+        userData.put("phone", "+91" + phone);
+        userData.put("loginType", "DEMO_OTP");
 
         db.collection("users").document(uid).set(userData);
     }
@@ -217,16 +180,18 @@ public class Login_Page extends AppCompatActivity {
         Map<String, Object> userData = new HashMap<>();
         userData.put("name", acc.getDisplayName());
         userData.put("email", acc.getEmail());
-        userData.put("photoUrl",
-                acc.getPhotoUrl() != null ? acc.getPhotoUrl().toString() : "");
+        userData.put("loginType", "GOOGLE");
 
         db.collection("users").document(uid).set(userData);
     }
 
     // ---------------- DASHBOARD ----------------
-    private void goToDashboard() {
+    private void goToDashboard(String userDocId, String name) {
         Intent intent = new Intent(Login_Page.this, DashboardActivity.class);
+        intent.putExtra("USER_DOC_ID", userDocId);
+        intent.putExtra("USER_NAME", name);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
 }
