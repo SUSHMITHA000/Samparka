@@ -17,6 +17,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <!-- Camera optional - app does NOT require camera to run -->
     <uses-feature
         android:name="android.hardware.camera"
@@ -28,7 +29,10 @@
 
     <!-- ===== APPLICATION ===== -->
     <application
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
+
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
 
@@ -80,14 +84,9 @@
         <activity android:name=".ProfileActivity" android:exported="false" />
         <activity android:name=".ComplaintsActivity" android:exported="false" />
         <activity android:name=".HelpAssistantActivity" android:exported="false" />
-<!--        <activity android:name=".NotificationsActivity"  android:exported="false"/>-->
-<!--        <activity android:name=".ProfileActivity"  android:exported="false"/>-->
+        <activity android:name=".CommunityUpdateActivity" android:exported="false" />
         <activity android:name=".FullScreenImageActivity" />
-
-        <!-- AndroidManifest.xml (inside <application>...) -->
         <activity android:name=".ComplaintDetailsActivity" />
-
-
 
     </application>
 

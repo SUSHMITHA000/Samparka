@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/windowBackground"
     android:padding="24dp"
-    tools:context=".Login_Page">
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,267 +18,128 @@
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:src="@drawable/samparka_round_no_bg"
-            android:contentDescription="@string/logo_desc"
             android:layout_marginTop="48dp"
             android:layout_marginBottom="16dp"
             app:tint="@color/colorPrimary" />
 
-        <!-- Title -->
+        <!-- App Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/welcome"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="28sp" />
+            android:text="Samparka"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginBottom="24dp" />
 
-        <!-- Subtitle -->
-        <TextView
-            android:id="@+id/loginSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_subtitle"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="16sp"
-            android:layout_marginBottom="32dp" />
-
-        <!-- Login Method Buttons -->
+        <!-- Full Name -->
         <LinearLayout
-            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:orientation="horizontal"
-            android:layout_marginBottom="16dp"
-            android:gravity="center">
+            android:background="@drawable/edit_text_background_pastel"
+            android:paddingHorizontal="16dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
 
-            <Button
-                android:id="@+id/emailLoginButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/login_with_email"
-                android:background="@drawable/selected_bg"
-                android:textColor="@android:color/white"
-                android:layout_marginEnd="8dp"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_person"
+                android:layout_marginEnd="12dp"
+                app:tint="@color/textColorSecondary" />
 
-            <Button
-                android:id="@+id/phoneLoginButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/login_with_phone"
-                android:background="@drawable/input_bg"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginStart="8dp"/>
-
+            <EditText
+                android:id="@+id/nameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Full Name"
+                android:inputType="textPersonName"
+                android:textSize="16sp"
+                android:textColor="@color/textColorPrimary"
+                android:background="@android:color/transparent" />
         </LinearLayout>
 
-        <!-- Email Login Form -->
+        <!-- Phone Number -->
         <LinearLayout
-            android:id="@+id/emailLoginForm"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:background="@drawable/edit_text_background_pastel"
+            android:paddingHorizontal="16dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
 
-            <!-- Name Input -->
-            <LinearLayout
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_phone"
+                android:layout_marginEnd="12dp"
+                app:tint="@color/textColorSecondary"/>
+
+            <EditText
+                android:id="@+id/phoneEditText"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:orientation="horizontal"
-                android:background="@drawable/edit_text_background_pastel"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="16dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_person"
-                    app:tint="@color/textColorSecondary"
-                    android:layout_marginEnd="12dp"
-                    android:contentDescription="@string/cd_user_icon" />
-
-                <EditText
-                    android:id="@+id/nameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/hint_full_name"
-                    android:inputType="textPersonName"
-                    android:autofillHints="name"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp"
-                    android:background="@android:color/transparent" />
-            </LinearLayout>
-
-            <!-- Email Input -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:orientation="horizontal"
-                android:background="@drawable/edit_text_background_pastel"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="16dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp" 
-                    android:src="@drawable/ic_mail"
-                    android:layout_marginEnd="12dp"
-                    app:tint="@color/textColorSecondary"
-                    android:contentDescription="@string/cd_email_icon" />
-
-                <EditText
-                    android:id="@+id/emailEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/email_hint"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp"
-                    android:background="@android:color/transparent"
-                    android:autofillHints="emailAddress" />
-            </LinearLayout>
-
-            <!-- Password Input -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:orientation="horizontal"
-                android:background="@drawable/edit_text_background_pastel"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="8dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@android:drawable/ic_lock_idle_lock"
-                    android:layout_marginEnd="12dp"
-                    app:tint="@color/textColorSecondary"
-                    android:contentDescription="@string/cd_password_icon" />
-
-                <EditText
-                    android:id="@+id/passwordEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/password_hint"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp"
-                    android:inputType="textPassword"
-                    android:background="@android:color/transparent"
-                    android:autofillHints="password" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/forgotPasswordTextEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/forgot_password_text"
-                android:textColor="@color/colorPrimary"
-                android:textSize="14sp"
-                android:layout_gravity="end"
-                android:padding="4dp"/>
-
-            <!-- LOGIN BUTTON -->
-            <Button
-                android:id="@+id/loginButton"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="@string/login"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_primary_background"
-                android:layout_marginTop="16dp" />
+                android:layout_height="match_parent"
+                android:hint="Enter phone number"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"
+                android:background="@android:color/transparent"/>
         </LinearLayout>
 
-        <!-- Phone Login Form -->
-        <LinearLayout
-            android:id="@+id/phoneLoginForm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <!-- Phone Input -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:orientation="horizontal"
-                android:background="@drawable/edit_text_background_pastel"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="16dp">
-
-                <EditText
-                    android:id="@+id/phoneNumberEditText"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:hint="@string/phone_number_hint"
-                    android:inputType="phone"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp"
-                    android:background="@android:color/transparent"
-                    android:autofillHints="phone" />
-
-                <Button
-                    android:id="@+id/sendOtpButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/send_otp_button"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
-
-            <!-- OTP Input -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:orientation="horizontal"
-                android:background="@drawable/edit_text_background_pastel"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="24dp">
-
-                <EditText
-                    android:id="@+id/otpEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/otp_hint"
-                    android:inputType="number"
-                    android:autofillHints="sms-otp"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp"
-                    android:background="@android:color/transparent" />
-            </LinearLayout>
-
-            <!-- VERIFY & LOGIN BUTTON -->
-            <Button
-                android:id="@+id/verifyOtpButton"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="@string/verify_otp_button"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_primary_background"
-                android:layout_marginTop="8dp" />
-        </LinearLayout>
-
-        <!-- GOOGLE SIGN-IN -->
+        <!-- Send OTP -->
         <Button
+            android:id="@+id/btnSendOtp"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Send OTP"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_primary_background"
+            android:layout_marginBottom="16dp" />
+
+        <!-- OTP -->
+        <EditText
+            android:id="@+id/otpEditText"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Enter OTP"
+            android:inputType="number"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
+            android:background="@drawable/edit_text_background_pastel"
+            android:paddingHorizontal="16dp"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Verify OTP -->
+        <Button
+            android:id="@+id/btnVerifyOtp"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Verify OTP"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_primary_background"
+            android:visibility="gone"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Divider -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OR"
+            android:textStyle="bold"
+            android:textColor="@color/textColorSecondary"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Google Sign-In -->
+        <com.google.android.gms.common.SignInButton
             android:id="@+id/googleSignInButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/google_sign_in"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:icon="@drawable/googleg_standard_color_18"
-            android:layout_marginTop="24dp"/>
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 </ScrollView>
