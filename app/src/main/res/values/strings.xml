@@ -31,6 +31,15 @@
     <string name="notification_icon_description">Notification icon</string>
     <string name="profile_icon_description">Profile icon</string>
 
+    <string name="login_with_email">Login with Email</string>
+    <string name="login_with_phone">Login with Phone</string>
+    <string name="phone_number_hint">Enter your phone number</string>
+    <string name="otp_hint">Enter OTP</string>
+    <string name="send_otp_button">Send OTP</string>
+    <string name="verify_otp_button">Verify &amp; Login</string>
+    <string name="forgot_password_text">Forgot Password?</string>
+    <string name="google_sign_in">Sign in with Google</string>
+
     <string-array name="languages">
         <item>English</item>
         <item>Kannada</item>
