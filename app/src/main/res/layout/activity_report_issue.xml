@@ -13,73 +13,17 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- TOP USER PROFILE BAR (Name + Photo) -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <!-- Top Middle Title -->
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="12dp">
-
-            <ImageView
-                android:id="@+id/userProfileSmall"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_profile"
-                android:background="@drawable/circle_primary_color"
-                android:padding="6dp" />
-
-            <TextView
-                android:id="@+id/userNameSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="User Name"
-                android:textSize="16sp"
-                android:layout_marginStart="12dp"
-                android:textColor="@color/textColorPrimary" />
-        </LinearLayout>
-
-        <!-- TITLE BAR -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@color/colorPrimary"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
-
-            <ImageView
-                android:id="@+id/backButton"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:src="@android:drawable/ic_media_previous"
-                android:tint="@color/white"
-                tools:ignore="UseAppTint" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Report Issue"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginStart="16dp" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <!-- PROFILE ICON IN HEADER -->
-            <ImageView
-                android:id="@+id/profileIcon"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_profile"
-                android:background="@drawable/circle_primary_color"
-                android:padding="5dp" />
-        </LinearLayout>
+            android:text="Report New Issue"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp" />
 
         <!-- UPLOAD PHOTO SECTION -->
         <LinearLayout
@@ -87,7 +31,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
-            android:layout_marginTop="16dp"
             android:background="@drawable/dashboard_card_background">
 
             <TextView

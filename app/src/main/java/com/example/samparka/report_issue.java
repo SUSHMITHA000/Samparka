@@ -42,9 +42,9 @@ public class report_issue extends AppCompatActivity {
 
     Spinner spinnerIssueType;
     EditText etDescription;
-    TextView tvLocation, userNameSmall;
+    TextView tvLocation;
     Button btnSubmit, btnUploadPhoto;
-    ImageView imagePreview, userProfileSmall;
+    ImageView imagePreview;
     LinearLayout previewContainer;
 
     Uri imageUri = null;
@@ -57,10 +57,6 @@ public class report_issue extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_CODE = 101;
     private static final int STORAGE_PERMISSION_CODE = 102;
     private static final int LOCATION_PERMISSION_CODE = 200;
-
-    // 🔥 ML-related fields REMOVED
-    // private ImageClassifier imageClassifier;
-    // private boolean isImageValid = false;
 
     // Cloudinary setup
     Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
@@ -85,21 +81,9 @@ public class report_issue extends AppCompatActivity {
         btnUploadPhoto = findViewById(R.id.btnUploadPhoto);
         previewContainer = findViewById(R.id.previewContainer);
         imagePreview = findViewById(R.id.imagePreview);
-        userNameSmall = findViewById(R.id.userNameSmall);
-        userProfileSmall = findViewById(R.id.userProfileSmall);
 
         db = FirebaseFirestore.getInstance();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        // 🔥 ML model init REMOVED
-        /*
-        try {
-            imageClassifier = new ImageClassifier(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Model load failed", Toast.LENGTH_SHORT).show();
-        }
-        */
 
         // Dropdown data
         String[] issues = {
@@ -111,28 +95,7 @@ public class report_issue extends AppCompatActivity {
         btnUploadPhoto.setOnClickListener(v -> showImageSourceDialog());
         btnSubmit.setOnClickListener(v -> uploadIssue());
 
-        loadUserTopBar();
         requestLocationPermission();
-    }
-
-    // Load user name & photo at top bar
-    private void loadUserTopBar() {
-        String emailKey = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
-        db.collection("users").document(emailKey)
-                .get().addOnSuccessListener(doc -> {
-                    if (doc.exists()) {
-
-                        String name = doc.getString("name");
-                        String photo = doc.getString("photoUrl");
-
-                        if (name != null) userNameSmall.setText(name);
-
-                        if (photo != null && !photo.isEmpty()) {
-                            Glide.with(this).load(photo).circleCrop().into(userProfileSmall);
-                        }
-                    }
-                });
     }
 
     // ---------------- LOCATION PERMISSION ----------------
@@ -302,8 +265,6 @@ public class report_issue extends AppCompatActivity {
             intent.putExtra("imageUrl", uri.toString());
             startActivity(intent);
         });
-
-        // 🔥 NO CLASSIFICATION, NO REJECTION HERE ANYMORE
     }
 
     // ---------------- UPLOAD ISSUE ----------------
@@ -316,7 +277,6 @@ public class report_issue extends AppCompatActivity {
             return;
         }
 
-        // Just require that an image exists at all
         if (imageUri == null) {
             Toast.makeText(this,
                     "Please upload a photo.",
@@ -324,13 +284,10 @@ public class report_issue extends AppCompatActivity {
             return;
         }
 
-        // 🔥 NO isImageValid CHECK ANYMORE
-
         ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Uploading...");
         dialog.show();
 
-        // Upload to Cloudinary in background thread
         new Thread(() -> {
             try {
                 String imagePath = getImageFilePath();
@@ -372,33 +329,28 @@ public class report_issue extends AppCompatActivity {
         } catch (Exception ignored) {}
 
         Map<String, Object> issue = new HashMap<>();
-        issue.put("userId", uid);                     // who submitted the issue
+        issue.put("userId", uid);
         issue.put("type", type);
         issue.put("description", desc);
         issue.put("imageUrl", imageUrl);
         issue.put("address", currentAddress);
-        issue.put("status", "Pending");               // default status
-        issue.put("priority", "Normal");              // default priority
-        issue.put("assignedTo", null);                // no authority yet
+        issue.put("status", "Pending");
+        issue.put("priority", "Normal");
+        issue.put("assignedTo", null);
         issue.put("timestamp", System.currentTimeMillis());
 
         db.collection("issues")
                 .add(issue)
                 .addOnSuccessListener(doc -> {
-
                     Toast.makeText(this, "Issue Submitted!", Toast.LENGTH_SHORT).show();
-
                     Intent intent = new Intent(report_issue.this, ComplaintsActivity.class);
                     startActivity(intent);
-                    finish();  // optional, so user cannot come back to form
+                    finish();
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-
     }
 
-
-    // ---------------- PERMISSION RESULT ----------------
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,

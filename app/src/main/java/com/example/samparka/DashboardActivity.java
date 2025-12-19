@@ -6,20 +6,20 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class DashboardActivity extends AppCompatActivity {
 
     ImageView profileIcon;
-    TextView greetingText;
+    TextView greetingText, communityUpdateText;
 
-    LinearLayout reportIssueSection, btnMyReports, btnHelpChat, btnEvents, communityUpdateSection;
+    LinearLayout reportIssueSection, btnMyReports, btnHelpChat, communityUpdateSection;
 
     FirebaseAuth auth;
     FirebaseFirestore db;
@@ -35,27 +35,15 @@ public class DashboardActivity extends AppCompatActivity {
 
         profileIcon = findViewById(R.id.profileIcon);
         greetingText = findViewById(R.id.greetingText);
+        communityUpdateText = findViewById(R.id.communityUpdateText);
 
         reportIssueSection = findViewById(R.id.reportIssueSection);
         btnMyReports = findViewById(R.id.btnMyReports);
         btnHelpChat = findViewById(R.id.btnHelpChat);
-        btnEvents = findViewById(R.id.btnEvents);
         communityUpdateSection = findViewById(R.id.communityUpdateSection);
 
-        String userDocId = getIntent().getStringExtra("USER_DOC_ID");
-        String passedName = getIntent().getStringExtra("USER_NAME");
-
-// 🔥 Show name instantly
-        if (passedName != null && !passedName.isEmpty()) {
-            greetingText.setText("Hi " + passedName + " 👋");
-        } else {
-            greetingText.setText("Hi User 👋");
-        }
-
-// Background Firestore fetch
-        loadUserProfile(userDocId);
-
-
+        loadUserProfile(auth.getUid());
+        listenForCommunityUpdates();
 
         profileIcon.setOnClickListener(v ->
                 startActivity(new Intent(DashboardActivity.this, ProfileActivity.class))
@@ -73,13 +61,30 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(new Intent(DashboardActivity.this, HelpAssistantActivity.class))
         );
 
-        btnEvents.setOnClickListener(v ->
-                Toast.makeText(this, "Upcoming Events coming soon!", Toast.LENGTH_SHORT).show()
-        );
-
         communityUpdateSection.setOnClickListener(v ->
-                startActivity(new Intent(DashboardActivity.this, NotificationsActivity.class))
+                startActivity(new Intent(DashboardActivity.this, CommunityUpdateActivity.class))
         );
+    }
+
+    private void listenForCommunityUpdates() {
+        db.collection("events")
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .limit(1)
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        if (communityUpdateText != null) communityUpdateText.setText("No updates available");
+                        return;
+                    }
+
+                    if (value != null && !value.isEmpty()) {
+                        String latestEvent = value.getDocuments().get(0).getString("message");
+                        if (latestEvent != null && communityUpdateText != null) {
+                            communityUpdateText.setText(latestEvent);
+                        }
+                    } else {
+                        if (communityUpdateText != null) communityUpdateText.setText("No new updates");
+                    }
+                });
     }
 
     @SuppressLint("SetTextI18n")
@@ -90,7 +95,6 @@ public class DashboardActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(doc -> {
                     if (doc.exists()) {
-
                         String name = doc.getString("name");
                         String photoUrl = doc.getString("photoUrl");
 

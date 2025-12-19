@@ -26,7 +26,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Hi sushhh 👋"
+                android:text="Hi User"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="24sp" />
 
@@ -201,36 +201,6 @@
                     android:textSize="10sp" />
             </LinearLayout>
 
-            <!-- Community Update -->
-            <LinearLayout
-                android:id="@+id/communityUpdateSection"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_columnWeight="1"
-                android:layout_margin="4dp"
-                android:padding="16dp"
-                android:background="@drawable/bg_card_green"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_notifications"
-                    app:tint="@color/white" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Community Update"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Latest news and updates"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
             <!-- Help and Chat -->
             <LinearLayout
                 android:id="@+id/btnHelpChat"
@@ -261,34 +231,37 @@
                     android:textSize="10sp" />
             </LinearLayout>
 
-            <!-- Events -->
+            <!-- Community Update -->
             <LinearLayout
-                android:id="@+id/btnEvents"
+                android:id="@+id/communityUpdateSection"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 android:padding="16dp"
-                android:background="@drawable/button_primary_background"
+                android:background="@drawable/bg_card_green"
                 android:orientation="vertical">
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_calendar"
+                    android:src="@drawable/ic_notifications"
                     app:tint="@color/white" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Events"
+                    android:text="Community Update"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:layout_marginTop="8dp" />
                 <TextView
+                    android:id="@+id/communityUpdateText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Check upcoming events"
+                    android:text="Checking for updates..."
                     android:textColor="@color/white"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    android:maxLines="2"
+                    android:ellipsize="end" />
             </LinearLayout>
 
         </androidx.gridlayout.widget.GridLayout>
