@@ -111,10 +111,15 @@ public class ComplaintsActivity extends AppCompatActivity {
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .addSnapshotListener((value, error) -> {
 
-                    if (error != null || value == null) {
-                        Toast.makeText(this, "Error loading complaints!", Toast.LENGTH_SHORT).show();
+                    if (error != null) {
+                        Toast.makeText(
+                                this,
+                                "Firestore error: " + error.getMessage(),
+                                Toast.LENGTH_LONG
+                        ).show();
                         return;
                     }
+
 
                     complaintList.clear();
 

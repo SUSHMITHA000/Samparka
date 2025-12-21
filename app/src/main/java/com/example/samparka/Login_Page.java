@@ -29,8 +29,8 @@ import java.util.Map;
 
 public class Login_Page extends AppCompatActivity {
 
-    // Phone OTP (DEMO MODE)
-    private EditText phoneEditText, otpEditText;
+    // Demo OTP
+    private EditText phoneEditText, otpEditText, nameEditText;
     private Button sendOtpButton, verifyOtpButton;
 
     // Google Sign-In
@@ -74,6 +74,7 @@ public class Login_Page extends AppCompatActivity {
         // Views
         phoneEditText = findViewById(R.id.phoneEditText);
         otpEditText = findViewById(R.id.otpEditText);
+        nameEditText = findViewById(R.id.nameEditText);
         sendOtpButton = findViewById(R.id.btnSendOtp);
         verifyOtpButton = findViewById(R.id.btnVerifyOtp);
         googleSignInButton = findViewById(R.id.googleSignInButton);
@@ -110,8 +111,7 @@ public class Login_Page extends AppCompatActivity {
             verifyOtpButton.setVisibility(View.VISIBLE);
         });
 
-        // VERIFY OTP (DEMO)
-
+        // VERIFY OTP (ANONYMOUS FIREBASE AUTH)
         verifyOtpButton.setOnClickListener(v -> {
             String otp = otpEditText.getText().toString().trim();
 
@@ -120,19 +120,25 @@ public class Login_Page extends AppCompatActivity {
                 return;
             }
 
-            String userDocId = "demo_" + enteredPhone;
+            firebaseAuth.signInAnonymously()
+                    .addOnSuccessListener(authResult -> {
+                        String uid = firebaseAuth.getUid();
 
-            String name = "User";
-            EditText nameEditText = findViewById(R.id.nameEditText);
-            if (nameEditText != null && !nameEditText.getText().toString().trim().isEmpty()) {
-                name = nameEditText.getText().toString().trim();
-            }
+                        String name = "User";
+                        if (nameEditText != null &&
+                                !nameEditText.getText().toString().trim().isEmpty()) {
+                            name = nameEditText.getText().toString().trim();
+                        }
 
-            savePhoneUser(enteredPhone);
-            goToDashboard(userDocId, name);
-
+                        savePhoneUser(uid, enteredPhone, name);
+                        goToDashboard(uid, name);
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(this,
+                                    "Authentication failed",
+                                    Toast.LENGTH_SHORT).show()
+                    );
         });
-
     }
 
     // ---------------- GOOGLE LOGIN ----------------
@@ -145,7 +151,6 @@ public class Login_Page extends AppCompatActivity {
 
                     saveGoogleUser();
                     goToDashboard(firebaseAuth.getUid(), name);
-
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this,
@@ -153,24 +158,20 @@ public class Login_Page extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show());
     }
 
-    // ---------------- SAVE USERS ----------------
-    private void savePhoneUser(String phone) {
-        String uid = "demo_" + phone;
-
-        String name = "User";
-        EditText nameEditText = findViewById(R.id.nameEditText);
-        if (nameEditText != null && !nameEditText.getText().toString().trim().isEmpty()) {
-            name = nameEditText.getText().toString().trim();
-        }
+    // ---------------- SAVE DEMO OTP USER ----------------
+    private void savePhoneUser(String uid, String phone, String name) {
 
         Map<String, Object> userData = new HashMap<>();
         userData.put("name", name);
         userData.put("phone", "+91" + phone);
         userData.put("loginType", "DEMO_OTP");
 
-        db.collection("users").document(uid).set(userData);
+        db.collection("users")
+                .document(uid)
+                .set(userData);
     }
 
+    // ---------------- SAVE GOOGLE USER ----------------
     private void saveGoogleUser() {
         GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
         if (acc == null) return;
@@ -182,16 +183,17 @@ public class Login_Page extends AppCompatActivity {
         userData.put("email", acc.getEmail());
         userData.put("loginType", "GOOGLE");
 
-        db.collection("users").document(uid).set(userData);
+        db.collection("users")
+                .document(uid)
+                .set(userData);
     }
 
     // ---------------- DASHBOARD ----------------
-    private void goToDashboard(String userDocId, String name) {
+    private void goToDashboard(String uid, String name) {
         Intent intent = new Intent(Login_Page.this, DashboardActivity.class);
-        intent.putExtra("USER_DOC_ID", userDocId);
+        intent.putExtra("USER_DOC_ID", uid);
         intent.putExtra("USER_NAME", name);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
-
 }
