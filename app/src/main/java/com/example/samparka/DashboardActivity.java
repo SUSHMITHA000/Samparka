@@ -19,6 +19,9 @@ public class DashboardActivity extends AppCompatActivity {
     ImageView profileIcon;
     TextView greetingText, communityUpdateText;
 
+    // ✅ COUNT TEXTVIEWS (from XML)
+    TextView totalReports, inProgressReports, resolvedReports;
+
     LinearLayout reportIssueSection, btnMyReports, btnHelpChat, communityUpdateSection;
 
     FirebaseAuth auth;
@@ -37,6 +40,11 @@ public class DashboardActivity extends AppCompatActivity {
         greetingText = findViewById(R.id.greetingText);
         communityUpdateText = findViewById(R.id.communityUpdateText);
 
+        // ✅ INIT COUNT TEXTVIEWS
+        totalReports = findViewById(R.id.totalReports);
+        inProgressReports = findViewById(R.id.inProgressReports);
+        resolvedReports = findViewById(R.id.resolvedReports);
+
         reportIssueSection = findViewById(R.id.reportIssueSection);
         btnMyReports = findViewById(R.id.btnMyReports);
         btnHelpChat = findViewById(R.id.btnHelpChat);
@@ -44,6 +52,9 @@ public class DashboardActivity extends AppCompatActivity {
 
         loadUserProfile(auth.getUid());
         listenForCommunityUpdates();
+
+        // ✅ LOAD COMPLAINT COUNTS
+        loadComplaintCounts();
 
         profileIcon.setOnClickListener(v ->
                 startActivity(new Intent(DashboardActivity.this, ProfileActivity.class))
@@ -66,27 +77,32 @@ public class DashboardActivity extends AppCompatActivity {
         );
     }
 
+    // ---------------- COMMUNITY UPDATES ----------------
     private void listenForCommunityUpdates() {
         db.collection("events")
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(1)
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
-                        if (communityUpdateText != null) communityUpdateText.setText("No updates available");
+                        if (communityUpdateText != null)
+                            communityUpdateText.setText("No updates available");
                         return;
                     }
 
                     if (value != null && !value.isEmpty()) {
-                        String latestEvent = value.getDocuments().get(0).getString("message");
+                        String latestEvent =
+                                value.getDocuments().get(0).getString("message");
                         if (latestEvent != null && communityUpdateText != null) {
                             communityUpdateText.setText(latestEvent);
                         }
                     } else {
-                        if (communityUpdateText != null) communityUpdateText.setText("No new updates");
+                        if (communityUpdateText != null)
+                            communityUpdateText.setText("No new updates");
                     }
                 });
     }
 
+    // ---------------- USER PROFILE ----------------
     @SuppressLint("SetTextI18n")
     private void loadUserProfile(String uid) {
         if (uid == null) return;
@@ -105,11 +121,50 @@ public class DashboardActivity extends AppCompatActivity {
                         }
 
                         if (photoUrl != null && !photoUrl.isEmpty()) {
-                            Glide.with(this).load(photoUrl).circleCrop().into(profileIcon);
+                            Glide.with(this)
+                                    .load(photoUrl)
+                                    .circleCrop()
+                                    .into(profileIcon);
                         } else {
                             profileIcon.setImageResource(R.drawable.ic_profile);
                         }
                     }
+                });
+    }
+
+    // ---------------- COMPLAINT COUNTS ----------------
+    private void loadComplaintCounts() {
+        String uid = auth.getUid();
+        if (uid == null) return;
+
+        db.collection("issues")
+                .whereEqualTo("userId", uid)
+                .addSnapshotListener((value, error) -> {
+                    if (error != null || value == null) return;
+
+                    int total = 0;
+                    int inProgress = 0;
+                    int resolved = 0;
+
+                    for (var doc : value.getDocuments()) {
+                        total++;
+
+                        String status = doc.getString("status");
+                        if (status == null) continue;
+
+                        if (status.equalsIgnoreCase("Completed")) {
+                            resolved++;
+                        } else if (
+                                status.equalsIgnoreCase("Pending") ||
+                                        status.equalsIgnoreCase("In Progress")
+                        ) {
+                            inProgress++;
+                        }
+                    }
+
+                    totalReports.setText(String.valueOf(total));
+                    inProgressReports.setText(String.valueOf(inProgress));
+                    resolvedReports.setText(String.valueOf(resolved));
                 });
     }
 }

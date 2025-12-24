@@ -36,7 +36,8 @@
                 android:layout_height="32dp"
                 android:src="@drawable/ic_notifications"
                 android:layout_marginEnd="16dp"
-                android:tint="@color/colorPrimary" />
+                android:tint="@color/colorPrimary"
+                tools:ignore="UseAppTint" />
 
             <ImageView
                 android:id="@+id/profileIcon"
