@@ -37,6 +37,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+/// Model setup
+import okhttp3.*;
+import org.json.JSONObject;
+import java.io.InputStream;
+import java.io.ByteArrayOutputStream;
+/// model setup
+
+
 public class report_issue extends AppCompatActivity {
 
     Spinner spinnerIssueType;
@@ -56,6 +64,14 @@ public class report_issue extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_CODE = 101;
     private static final int STORAGE_PERMISSION_CODE = 102;
     private static final int LOCATION_PERMISSION_CODE = 200;
+
+
+    /// Backend setup model
+    private static final String BACKEND_URL =
+            "http://127.0.0.1:8000/validate-image";
+    /// Backend setup model
+
+
 
     // Cloudinary setup
     Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
@@ -101,7 +117,21 @@ public class report_issue extends AppCompatActivity {
         ));
 
         btnUploadPhoto.setOnClickListener(v -> showImageSourceDialog());
-        btnSubmit.setOnClickListener(v -> uploadIssue());
+
+
+        ///  SUBMIT ISSUE
+        btnSubmit.setOnClickListener(v -> {
+
+            if (imageUri == null) {
+                Toast.makeText(this, "Upload image first", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            validateImageWithBackend(imageUri);
+        });
+        ///  SUBMIT ISSUE  Model
+
+
 
         requestLocationPermission();
     }
@@ -348,4 +378,96 @@ public class report_issue extends AppCompatActivity {
             openGallery();
         }
     }
+
+
+
+    /// Backend setup model validate image
+    private void validateImageWithBackend(Uri imageUri) {
+
+        OkHttpClient client = new OkHttpClient();
+
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            byte[] imageBytes = readBytes(inputStream);
+
+            RequestBody fileBody =
+                    RequestBody.create(imageBytes, MediaType.parse("image/jpeg"));
+
+            MultipartBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("file", "image.jpg", fileBody)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(BACKEND_URL)
+                    .post(requestBody)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    runOnUiThread(() ->
+                            Toast.makeText(
+                                    report_issue.this,
+                                    "Backend not reachable",
+                                    Toast.LENGTH_LONG
+                            ).show()
+                    );
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String responseBody = response.body().string();
+
+                    try {
+                        JSONObject json = new JSONObject(responseBody);
+                        String issueType = json.getString("issue_type");
+
+                        runOnUiThread(() ->
+                                handleBackendResult(issueType)
+                        );
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private byte[] readBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[4096];
+
+        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        return buffer.toByteArray();
+    }
+
+    private void handleBackendResult(String issueType) {
+
+        if (issueType.equals("invalid")) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Invalid Image")
+                    .setMessage("Please upload a valid pothole, garbage, or street light image.")
+                    .setPositiveButton("OK", null)
+                    .show();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Confirm Issue")
+                    .setMessage("Detected issue: " + issueType.toUpperCase()
+                            + "\n\nDo you want to submit this complaint?")
+                    .setPositiveButton("Confirm", (d, w) -> uploadIssue())
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        }
+    }
+
+/// Backend setup model validate image
+
 }
