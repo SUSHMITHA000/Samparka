@@ -68,7 +68,7 @@ public class report_issue extends AppCompatActivity {
 
     /// Backend setup model
     private static final String BACKEND_URL =
-            "http://127.0.0.1:8000/validate-image";
+            "https://samparka-backend.onrender.com/validate-image";
     /// Backend setup model
 
 
