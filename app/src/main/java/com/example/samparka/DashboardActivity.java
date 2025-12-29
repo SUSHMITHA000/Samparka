@@ -16,7 +16,7 @@ import com.google.firebase.firestore.Query;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    ImageView profileIcon;
+    ImageView profileIcon, notificationIcon;
     TextView greetingText, communityUpdateText;
 
     // ✅ COUNT TEXTVIEWS
@@ -44,6 +44,7 @@ public class DashboardActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         profileIcon = findViewById(R.id.profileIcon);
+        notificationIcon = findViewById(R.id.notificationIcon);
         greetingText = findViewById(R.id.greetingText);
         communityUpdateText = findViewById(R.id.communityUpdateText);
 
@@ -74,6 +75,10 @@ public class DashboardActivity extends AppCompatActivity {
 
         profileIcon.setOnClickListener(v ->
                 startActivity(new Intent(DashboardActivity.this, ProfileActivity.class))
+        );
+
+        notificationIcon.setOnClickListener(v ->
+                startActivity(new Intent(DashboardActivity.this, NotificationsActivity.class))
         );
 
         reportIssueSection.setOnClickListener(v ->
