@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.*;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -312,6 +313,7 @@ public class report_issue extends AppCompatActivity {
             } catch (Exception e) {
                 runOnUiThread(() -> {
                     dialog.dismiss();
+                    Log.d("Fatal",e.toString());
                     Toast.makeText(this,
                             "Upload failed",
                             Toast.LENGTH_LONG).show();

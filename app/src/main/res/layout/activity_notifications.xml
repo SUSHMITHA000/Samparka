@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -25,8 +24,7 @@
             android:contentDescription="Back"
             android:padding="8dp"
             android:scaleType="centerInside"
-            app:tint="@color/white"
-            />
+            app:tint="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,175 +33,15 @@
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginStart="12dp"
-            tools:ignore="HardcodedText" />
+            android:layout_marginStart="12dp" />
     </LinearLayout>
 
-    <!-- Scrollable Notification List -->
-    <ScrollView
+    <!-- 🔔 Dynamic Notification List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notificationsRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- Notification Card 1 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/notification_card_background_pastel"
-                android:padding="16dp"
-                android:layout_marginBottom="12dp"
-                android:elevation="2dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_info"
-                    app:tint="@color/colorPrimary"
-                    tools:ignore="ContentDescription" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Complaint Assigned"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:textColor="@color/textColorPrimary" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Your complaint &quot;Pothole on Main Road&quot; has been assigned to Road Authority"
-                        android:textSize="14sp"
-                        android:textColor="@color/textColorSecondary"
-                        android:layout_marginTop="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2025-04-10 10:30 AM"
-                        android:textSize="12sp"
-                        android:textColor="@color/textColorSecondary"
-                        android:layout_marginTop="6dp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:background="@drawable/circle_primary_color"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout>
-
-            <!-- Notification Card 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/notification_card_background_pastel"
-                android:padding="16dp"
-                android:layout_marginBottom="12dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_check_circle"
-                    app:tint="@color/colorPrimary" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Status Updated"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:textColor="@color/textColorPrimary" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Your complaint &quot;Street Light Not Working&quot; has been marked as Completed"
-                        android:textSize="14sp"
-                        android:textColor="@color/textColorSecondary"
-                        android:layout_marginTop="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2025-04-11 04:15 PM"
-                        android:textSize="12sp"
-                        android:textColor="@color/textColorSecondary"
-                        android:layout_marginTop="6dp" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <!-- Notification Card 3 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/notification_card_background_pastel"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_info"
-                    app:tint="@color/colorPrimary" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="New Community Update"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:textColor="@color/textColorPrimary" />
-
-                    <TextView
-                        android.layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Panchayat meeting scheduled for April 20th at 3 PM"
-                        android:textSize="14sp"
-                        android:textColor="@color/textColorSecondary"
-                        android:layout_marginTop="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2025-04-12 09:00 AM"
-                        android:textSize="12sp"
-                        android:textColor="@color/textColorSecondary"
-                        android:layout_marginTop="6dp" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
+        android:padding="16dp"
+        android:clipToPadding="false" />
 
 </LinearLayout>

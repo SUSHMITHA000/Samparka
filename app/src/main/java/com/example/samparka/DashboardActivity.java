@@ -16,7 +16,7 @@ import com.google.firebase.firestore.Query;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    ImageView profileIcon;
+    ImageView profileIcon, notificationIcon;
     TextView greetingText, communityUpdateText;
 
     // ✅ COUNT TEXTVIEWS
@@ -44,6 +44,7 @@ public class DashboardActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         profileIcon = findViewById(R.id.profileIcon);
+        notificationIcon = findViewById(R.id.notificationIcon);
         greetingText = findViewById(R.id.greetingText);
         communityUpdateText = findViewById(R.id.communityUpdateText);
 
@@ -52,7 +53,7 @@ public class DashboardActivity extends AppCompatActivity {
         inProgressReports = findViewById(R.id.inProgressReports);
         resolvedReports = findViewById(R.id.resolvedReports);
 
-        // ✅ INIT LATEST COMPLAINT TEXTVIEWS (THIS WAS MISSING)
+        // ✅ INIT LATEST COMPLAINT TEXTVIEWS
         latestComplaintStatus = findViewById(R.id.latestComplaintStatus);
         latestIssueType = findViewById(R.id.latestIssueType);
         latestIssueStatus = findViewById(R.id.latestIssueStatus);
@@ -76,6 +77,10 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(new Intent(DashboardActivity.this, ProfileActivity.class))
         );
 
+        notificationIcon.setOnClickListener(v ->
+                startActivity(new Intent(DashboardActivity.this, NotificationsActivity.class))
+        );
+
         reportIssueSection.setOnClickListener(v ->
                 startActivity(new Intent(DashboardActivity.this, report_issue.class))
         );
@@ -91,6 +96,7 @@ public class DashboardActivity extends AppCompatActivity {
         communityUpdateSection.setOnClickListener(v ->
                 startActivity(new Intent(DashboardActivity.this, CommunityUpdateActivity.class))
         );
+
     }
 
     // ---------------- COMMUNITY UPDATES ----------------
@@ -100,15 +106,17 @@ public class DashboardActivity extends AppCompatActivity {
                 .limit(1)
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
-                        communityUpdateText.setText("No updates available");
+                        if (communityUpdateText != null) communityUpdateText.setText("No updates available");
                         return;
                     }
 
                     if (value != null && !value.isEmpty()) {
                         String latestEvent = value.getDocuments().get(0).getString("message");
-                        communityUpdateText.setText(latestEvent != null ? latestEvent : "No updates");
+                        if (latestEvent != null && communityUpdateText != null) {
+                            communityUpdateText.setText(latestEvent);
+                        }
                     } else {
-                        communityUpdateText.setText("No new updates");
+                        if (communityUpdateText != null) communityUpdateText.setText("No new updates");
                     }
                 });
     }
@@ -154,7 +162,7 @@ public class DashboardActivity extends AppCompatActivity {
                     int inProgress = 0;
                     int resolved = 0;
 
-                    for (var doc : value.getDocuments()) {
+                    for (com.google.firebase.firestore.DocumentSnapshot doc : value.getDocuments()) {
                         total++;
                         String status = doc.getString("status");
 
@@ -165,9 +173,9 @@ public class DashboardActivity extends AppCompatActivity {
                         }
                     }
 
-                    totalReports.setText(String.valueOf(total));
-                    inProgressReports.setText(String.valueOf(inProgress));
-                    resolvedReports.setText(String.valueOf(resolved));
+                    if (totalReports != null) totalReports.setText(String.valueOf(total));
+                    if (inProgressReports != null) inProgressReports.setText(String.valueOf(inProgress));
+                    if (resolvedReports != null) resolvedReports.setText(String.valueOf(resolved));
                 });
     }
 
@@ -208,21 +216,21 @@ public class DashboardActivity extends AppCompatActivity {
                 .addSnapshotListener((value, error) -> {
 
                     if (value == null || value.isEmpty()) {
-                        latestIssueType.setText("No complaints yet");
-                        latestIssueLocation.setText("");
-                        latestIssueStatus.setText("");
-                        latestIssueDate.setText("");
+                        if (latestIssueType != null) latestIssueType.setText("No complaints yet");
+                        if (latestIssueLocation != null) latestIssueLocation.setText("");
+                        if (latestIssueStatus != null) latestIssueStatus.setText("");
+                        if (latestIssueDate != null) latestIssueDate.setText("");
                         return;
                     }
 
-                    var doc = value.getDocuments().get(0);
+                    com.google.firebase.firestore.DocumentSnapshot doc = value.getDocuments().get(0);
 
-                    latestIssueType.setText("Issue: " + doc.getString("type"));
-                    latestIssueLocation.setText("Location: " + doc.getString("address"));
-                    latestIssueStatus.setText("Status: " + doc.getString("status"));
+                    if (latestIssueType != null) latestIssueType.setText("Issue: " + doc.getString("type"));
+                    if (latestIssueLocation != null) latestIssueLocation.setText("Location: " + doc.getString("address"));
+                    if (latestIssueStatus != null) latestIssueStatus.setText("Status: " + doc.getString("status"));
 
                     Long ts = doc.getLong("timestamp");
-                    if (ts != null) {
+                    if (ts != null && latestIssueDate != null) {
                         java.text.SimpleDateFormat sdf =
                                 new java.text.SimpleDateFormat("dd MMM yyyy");
                         latestIssueDate.setText("Updated on: " +
