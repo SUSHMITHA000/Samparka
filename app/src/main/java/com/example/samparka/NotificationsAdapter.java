@@ -1,11 +1,15 @@
 package com.example.samparka;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class NotificationsAdapter
@@ -34,6 +38,22 @@ public class NotificationsAdapter
         NotificationModel n = list.get(position);
         holder.title.setText(n.title);
         holder.message.setText(n.message);
+
+        holder.itemView.setOnClickListener(v -> {
+            Context context = v.getContext();
+
+            // 🔴 SAFETY CHECK
+            if (n.complaintId == null || n.complaintId.isEmpty()) return;
+
+            Intent intent = new Intent(
+                    context,
+                    ComplaintDetailsActivity.class
+            );
+
+            // 🔑 PASS COMPLAINT ID
+            intent.putExtra("complaintId", n.complaintId);
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -51,4 +71,3 @@ public class NotificationsAdapter
         }
     }
 }
-
