@@ -30,6 +30,15 @@
             android:textSize="28sp"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Tagline -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your voice. Your city."
+            android:textSize="16sp"
+            android:textColor="@color/textColorSecondary"
             android:layout_marginBottom="24dp" />
 
         <!-- Full Name -->
@@ -75,18 +84,17 @@
                 android:layout_height="24dp"
                 android:src="@drawable/ic_phone"
                 android:layout_marginEnd="12dp"
-                app:tint="@color/textColorSecondary"/>
+                app:tint="@color/textColorSecondary" />
 
             <EditText
                 android:id="@+id/phoneEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Enter phone number"
+                android:hint="Phone Number (+91XXXXXXXXXX)"
                 android:inputType="phone"
-                android:maxLength="10"
-                android:textColor="@color/textColorPrimary"
                 android:textSize="16sp"
-                android:background="@android:color/transparent"/>
+                android:textColor="@color/textColorPrimary"
+                android:background="@android:color/transparent" />
         </LinearLayout>
 
         <!-- Send OTP -->

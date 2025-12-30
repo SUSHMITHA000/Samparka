@@ -1,13 +1,15 @@
 package com.example.samparka;
 
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -22,6 +24,7 @@ public class HelpAssistantActivity extends AppCompatActivity {
     private RecyclerView chatRecyclerView;
     private EditText etMessage;
     private ImageButton btnSend;
+
     private MessageAdapter messageAdapter;
     private List<Message> messageList;
     private String sessionId;
@@ -52,7 +55,7 @@ public class HelpAssistantActivity extends AppCompatActivity {
 
     private void setupSession() {
         sessionId = UUID.randomUUID().toString();
-        addBotMessage("Hello! Your AI chatbot is ready. Try 'pothole near my house'");
+        addBotMessage("Hello! Your AI chatbot is ready. Try typing an issue.");
     }
 
     private void setupClickListeners() {
@@ -66,7 +69,7 @@ public class HelpAssistantActivity extends AppCompatActivity {
 
         findViewById(R.id.btnContact).setOnClickListener(v ->
                 sendPredefinedMessage("Contact Panchayat"));
-        
+
         findViewById(R.id.backButton).setOnClickListener(v -> finish());
     }
 
@@ -87,59 +90,72 @@ public class HelpAssistantActivity extends AppCompatActivity {
     private void sendToBackend(String text) {
         new Thread(() -> {
             try {
+                // 🔹 BACKEND URL (Render + endpoint)
                 URL url = new URL(ApiConfig.BASE_URL);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setDoOutput(true);
-                conn.setConnectTimeout(10000);
-                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setReadTimeout(15000);
 
+                // 🔹 Request JSON
                 JSONObject json = new JSONObject();
                 json.put("text", text);
                 json.put("sessionId", sessionId);
 
-                try (OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream())) {
-                    wr.write(json.toString());
-                }
+                OutputStreamWriter writer =
+                        new OutputStreamWriter(conn.getOutputStream());
+                writer.write(json.toString());
+                writer.flush();
+                writer.close();
 
                 int responseCode = conn.getResponseCode();
-                String reply = "";
 
+                BufferedReader reader;
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    try (BufferedReader rd = new BufferedReader(
-                            new InputStreamReader(conn.getInputStream()))) {
-                        reply = rd.readLine();
-                    }
+                    reader = new BufferedReader(
+                            new InputStreamReader(conn.getInputStream()));
                 } else {
-                    reply = "{\"reply\": \"Server error: " + responseCode + "\"}";
+                    reader = new BufferedReader(
+                            new InputStreamReader(conn.getErrorStream()));
                 }
 
-                JSONObject responseJson = new JSONObject(reply);
-                String botReply = responseJson.optString("reply", "Sorry, no response");
+                // 🔹 Read full response
+                StringBuilder responseBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    responseBuilder.append(line);
+                }
+                reader.close();
 
-                runOnUiThread(() -> addBotMessage(botReply.replace("\\n", "\n")));
+                JSONObject responseJson =
+                        new JSONObject(responseBuilder.toString());
+
+                String botReply =
+                        responseJson.optString("reply",
+                                "Sorry, I didn't understand that.");
+
+                runOnUiThread(() ->
+                        addBotMessage(botReply.replace("\\n", "\n")));
 
             } catch (Exception e) {
                 runOnUiThread(() ->
-                        addBotMessage("Connection failed: " + e.getMessage()));
+                        addBotMessage("Connection failed. Please try again."));
             }
         }).start();
     }
 
     private void addBotMessage(String message) {
-        runOnUiThread(() -> {
-            messageList.add(new Message(message, false));
-            messageAdapter.notifyItemInserted(messageList.size() - 1);
-            chatRecyclerView.scrollToPosition(messageList.size() - 1);
-        });
+        messageList.add(new Message(message, false));
+        messageAdapter.notifyItemInserted(messageList.size() - 1);
+        chatRecyclerView.scrollToPosition(messageList.size() - 1);
     }
 
     private void addUserMessage(String message) {
-        runOnUiThread(() -> {
-            messageList.add(new Message(message, true));
-            messageAdapter.notifyItemInserted(messageList.size() - 1);
-            chatRecyclerView.scrollToPosition(messageList.size() - 1);
-        });
+        messageList.add(new Message(message, true));
+        messageAdapter.notifyItemInserted(messageList.size() - 1);
+        chatRecyclerView.scrollToPosition(messageList.size() - 1);
     }
 }
