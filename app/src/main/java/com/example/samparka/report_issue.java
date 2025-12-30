@@ -471,6 +471,5 @@ public class report_issue extends AppCompatActivity {
         }
     }
 
-/// Backend setup model validate image
 
 }
